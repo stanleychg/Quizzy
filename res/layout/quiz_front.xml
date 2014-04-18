@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    
+    android:id="@+id/LinearLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BLACK"
+    android:orientation="vertical"
+    android:weightSum="1" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".8" >
+
+        <ImageButton
+            android:id="@+id/frontAddQuiz"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/add_quiz_small" />
+        <ImageButton
+            android:id="@+id/frontSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/frontAddQuiz"
+            
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/gear_2_small" />
+
+        <TextView
+            android:id="@+id/frontEmpty1"
+            style="@style/header_format"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Quizzy"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".2" >
+
+        <GridView
+            android:id="@+id/frontQuizList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".2"
+            android:background="@color/BLACK"
+            android:cacheColorHint="@color/WORD_LIST"
+            android:gravity="center_horizontal"
+            android:horizontalSpacing="@dimen/horiz_column_margin"
+            android:numColumns="@integer/num_columns"
+            android:verticalSpacing="@dimen/vert_column_margin" >
+        </GridView>
+
+        <ImageView
+            android:id="@+id/frontIntro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/new_user" />
+
+    </FrameLayout>
+
+</LinearLayout>

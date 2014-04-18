@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ <style name="AppTheme" parent="android:Theme.Light" />
+    <style parent="AppTheme" name="text_format">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/WHITE</item>
+    </style>
+
+    <style name="header_format" parent="AppTheme">
+        <item name="android:textSize">45dp</item>
+        <item name="android:textColor">@color/WHITE</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="button_format" parent="AppTheme">
+        <item name="android:textSize">30dp</item>
+        <item name="android:textColor">@color/BLACK</item>
+    </style>
+    
+    <style name="make_word_format" parent="AppTheme">
+        <item name="android:textSize">25dp</item>
+        <item name="android:textColor">@color/WORD</item>
+    </style>
+    
+    <style name="make_desc_format" parent="AppTheme">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/DESC</item>
+    </style>
+
+
+</resources>

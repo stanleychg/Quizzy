@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="num_columns" type="integer" format="integer">4</item>
+    <dimen name="vert_column_margin">30dp</dimen>
+    <dimen name="horiz_column_margin">50dp</dimen>   
+    <dimen name="grid_text_size">15dp</dimen>
+</resources>

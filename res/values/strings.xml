@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+    <string name="app_name">Quizzy</string>
+    <string name="quiz_name">quiz_name</string>
+    <string name="quiz_desc">quiz_desc</string>
+    <string name="front_add_quiz">Add Quiz
+</string>
+    <string name="quiz_list">quiz_list</string>
+    <string name="quiz_word_id">_id</string>
+    <string name="quiz_size">quiz_size</string>
+    <string name="sd_directory_folder">//Android//data//Quizzy_data</string>
+    <string name="internal_directory_folder">//data//wordgames.game//databases</string>
+    <string name="database_file">quizzy</string>
+</resources>

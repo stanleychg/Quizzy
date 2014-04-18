@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="WHITE">#FFFFFF</color>
+    <color name="BLACK">#000000</color>
+    <color name="WORD">#FFFFFF</color>
+    <color name="DESC">#999999</color>
+    <color name="WORD_LIST">#00FFFFFF</color>
+    <color name="GLOW_GOLD">#F0F0F0DD</color>
+    <color name="GLOW_YELLOW">#F0F0F0E0</color>
+    <color name="GLOW_WHITE">#F0F0F0FF</color>
+    <color name="WORD_LIST_PRE">#EE000000</color>
+    <color name="GLOW_BLUE">#000000</color>
+    <color name="WORD_2">#303030</color>
+    
+</resources>

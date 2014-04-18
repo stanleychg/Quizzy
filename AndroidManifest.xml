@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="wordgames.game"
+      android:versionCode="1"
+      android:versionName="1.0">
+    <uses-sdk android:minSdkVersion="8" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <application android:icon="@drawable/quizzy_icon" 
+    			android:label="@string/app_name">
+        
+        <activity android:name="QuizFront" android:screenOrientation="landscape"><intent-filter>
+        		
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter></activity>
+        <activity android:name="QuizMaker" android:screenOrientation="landscape">
+         android:configChanges="orientation"
+         </activity>
+        <activity android:name="QuizGame"
+            android:configChanges="orientation"
+            android:screenOrientation="landscape">
+            
+        </activity>
+
+    </application>
+</manifest>
