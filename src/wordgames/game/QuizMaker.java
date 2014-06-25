@@ -6,23 +6,29 @@ package wordgames.game;
 
 import wordgames.game.util.DatabaseQuizManager;
 import wordgames.game.util.Quiz;
+import wordgames.game.util.QuizAdapter;
 import wordgames.game.util.QuizManager;
 import wordgames.game.util.WordPair;
-import wordgames.game.util.QuizAdapter;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView.ScaleType;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TableLayout;
@@ -41,7 +47,6 @@ public class QuizMaker extends Activity{
 	QuizAdapter wpa;
 	TextView quizName;
 	TextView wordCount;
-	ImageButton addWord;
 
 	int numOfWords;
 	
@@ -60,22 +65,9 @@ public class QuizMaker extends Activity{
 	    
 	    //Name of quiz
 	    quiz = new Quiz(this.getIntent().getStringExtra("name"));
-		quizName = (TextView)findViewById(R.id.makeQuizTitle);
-		quizName.setText(this.getIntent().getStringExtra("name"));
-		
-		//Add words
-		addWord = (ImageButton)findViewById(R.id.makeAddWord);
-		
-		addWord.setOnClickListener(new OnClickListener(){
+		//quizName = (TextView)findViewById(R.id.makeQuizTitle);
+	    this.getActionBar().setTitle(this.getIntent().getStringExtra("name"));
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				displayAddOptions(v.getContext());
-			}
-			
-		});
-		
 		//Open database with name <quizName>
     	System.out.println("NAME: " + quiz.getName());
 		data = new DatabaseQuizManager(this,getResources().getString(R.string.database_file));
@@ -121,6 +113,23 @@ public class QuizMaker extends Activity{
 		wordCount.setText("");
 		wordCount.setText(String.valueOf(numOfWords) + " words");
 		
+		
+	}
+	
+	public boolean onCreateOptionsMenu(Menu menu){
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.quiz_maker_action, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item){
+		switch(item.getItemId()){
+		case R.id.menu_add:
+			displayAddOptions(QuizMaker.this);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 	
 	//Add word dialog
@@ -138,6 +147,7 @@ public class QuizMaker extends Activity{
         		LayoutParams.MATCH_PARENT,
         		0.5f));
         
+        //Insert name of the word
         TextView nameTitle = new TextView(mContext);
         nameTitle.setText("Term");
         nameTitle.setTextSize(HEADER_SIZE);
@@ -150,8 +160,10 @@ public class QuizMaker extends Activity{
         		LayoutParams.MATCH_PARENT,
         		1.0f));
         name.setTextSize(TERM_SIZE);
+        name.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         llLeft.addView(name);
         
+        //Insert definition of word
         TextView descTitle = new TextView(mContext);
         descTitle.setText("Description");
         descTitle.setTextSize(HEADER_SIZE);
@@ -164,6 +176,7 @@ public class QuizMaker extends Activity{
         		LayoutParams.MATCH_PARENT,
         		1.0f));
         desc.setTextSize(DESC_SIZE);
+        desc.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         llLeft.addView(desc);
         
         ll.addView(llLeft);
@@ -180,12 +193,20 @@ public class QuizMaker extends Activity{
         set.setLayoutParams(lp);
         set.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-            	hideIntro();
-            	quiz.add(new WordPair(name.getText().toString(),desc.getText().toString()));
-            	wpa.notifyDataSetChanged();
-            	numOfWords ++;
-            	wordCount.setText(String.valueOf(numOfWords) + " words");
-                dialog.dismiss();
+            	String nameHolder = name.getText().toString();
+            	String descHolder = desc.getText().toString();
+            	
+            	if(!nameHolder.isEmpty() && !descHolder.isEmpty()){
+            		hideIntro();
+                	quiz.add(new WordPair(nameHolder,descHolder));
+                	wpa.notifyDataSetChanged();
+                	numOfWords ++;
+                	wordCount.setText(String.valueOf(numOfWords) + " words");
+                    dialog.dismiss();
+            	} else{
+            		Toast.makeText(mContext, "Please fill out all fields!", Toast.LENGTH_SHORT).show();
+            	}
+            	
             }
         });        
         set.setPadding(5, 5, 5, 5);
@@ -311,14 +332,7 @@ public class QuizMaker extends Activity{
 	//Exit Screen
 	@Override
 	public void onBackPressed() {
-		//Save before leaving
-		//Quizzes
-		data.deleteAllWords();
-		for(WordPair wp: quiz){
-			data.insertWord(wp.word, wp.definition);
-		}
-		
-		data.close();
+		saveQuiz();
 		finish();
 	}
 	
@@ -327,5 +341,32 @@ public class QuizMaker extends Activity{
 		View v = findViewById(R.id.makeIntro);
 		v.setVisibility(View.GONE);
 	}
+	
+	public void saveQuiz(){
+		//Save before leaving
+		//Quizzes
+		data.deleteAllWords();
+		for(WordPair wp: quiz){
+			data.insertWord(wp.word, wp.definition);
+		}
+		data.close();
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onSaveInstanceState(android.os.Bundle)
+	 */
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		
+		super.onSaveInstanceState(outState);
+		saveQuiz();
+	}
+	
+
+
+	
+	
+	
 		
 }

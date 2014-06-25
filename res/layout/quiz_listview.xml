@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:text="Name of Quiz"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/BLACK"
         android:textSize="@dimen/grid_text_size" />
 
 </LinearLayout>
