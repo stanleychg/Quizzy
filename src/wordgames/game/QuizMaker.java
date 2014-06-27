@@ -116,12 +116,14 @@ public class QuizMaker extends Activity{
 		
 	}
 	
+	//Add Action Bar
 	public boolean onCreateOptionsMenu(Menu menu){
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.quiz_maker_action, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 	
+	//Event Listener for Action Bar
 	public boolean onOptionsItemSelected(MenuItem item){
 		switch(item.getItemId()){
 		case R.id.menu_add:

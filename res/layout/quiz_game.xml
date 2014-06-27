@@ -3,25 +3,127 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
 
-    <TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/side_margin"
+        android:layout_marginRight="@dimen/side_margin"
+        android:background="#EEEEEE"
+        android:orientation="vertical"
+        android:weightSum="1" >
 
-        <TableRow
-            android:id="@+id/tableRow5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".65"
+            android:background="#AAAAAA"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/gamePreviousDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/side_text_margin"
+                android:layout_marginTop="10dp"
+                android:text="Previous answer"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#333333"
+                android:textSize="11dp" />
+
+            <TextView
+                android:id="@+id/gameCurrentDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/side_text_margin"
+                android:layout_marginTop="10dp"
+                android:text="&lt;Desc>"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#333333"
+                android:textStyle="bold"
+                android:width="600dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".35"
+            android:orientation="vertical"
+            android:showDividers="beginning"
+            android:weightSum="4" >
+
+            <Button
+                android:id="@+id/gameWord1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                
+                android:background="@drawable/black_white_gradient"
+                android:gravity="left|center_vertical"
+                android:maxLines="1"
+                android:onClick="checkAnswer"
+                android:text="TextView"
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/gameWord2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                
+                android:background="@drawable/black_white_gradient"
+                android:gravity="left|center_vertical"
+                android:maxLines="1"
+                android:onClick="checkAnswer"
+                android:text="TextView"
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/gameWord3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                
+                android:background="@drawable/black_white_gradient"
+                android:gravity="left|center_vertical"
+                android:maxLines="1"
+                android:onClick="checkAnswer"
+                android:text="TextView"
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:visibility="invisible" />
 
             <FrameLayout
-                android:layout_width="200dp"
-                android:layout_height="50dp" >
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/gameWord4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    
+                    android:background="@drawable/black_white_gradient"
+                    android:gravity="left|center_vertical"
+                    android:onClick="checkAnswer"
+                    android:text="TextView"
+                    android:textColor="#000000"
+                    android:textSize="20dp"
+                    android:visibility="invisible" />
 
                 <TextView
                     android:id="@+id/gameRightTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="100dp"
                     android:text="Right"
                     android:textColor="#000000" />
 
@@ -29,8 +131,8 @@
                     android:id="@+id/gameRightCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="115dp"
                     android:layout_marginTop="15dp"
                     android:text="0"
                     android:textColor="#000000" />
@@ -40,8 +142,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_marginRight="70dp"
-                    android:text="WRONG"
+                    android:layout_marginRight="20dp"
+                    android:text="Wrong"
                     android:textColor="#000000" />
 
                 <TextView
@@ -49,299 +151,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_marginRight="90dp"
+                    android:layout_marginRight="40dp"
                     android:layout_marginTop="15dp"
                     android:text="0"
                     android:textColor="#000000" />
             </FrameLayout>
 
-            <FrameLayout
-                android:layout_width="330dp"
-                android:layout_height="50dp" >
-
-                <TextView
-                    android:id="@+id/gamePreviousDesc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="18dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Previous answer"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="#333333"
-                    android:textSize="11dp" />
-            </FrameLayout>
-        </TableRow>
-        
-        </TableLayout>
-    <TextView
-        android:id="@+id/gameCurrentDesc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="TextView"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#333333"
-        android:textStyle="bold"
-        android:width="600dp" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="0.77" >
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="20dp"
-            android:gravity="bottom" >
-
-            <TableRow
-                android:id="@+id/tableRow1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp" >
-
-                <Button
-                    android:id="@+id/gameWord1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:maxLines="1"
-                    android:onClick="checkAnswer"
-                    android:text="TextView"
-                    android:textColor="#000000"
-                    android:textSize="20dp"
-                    android:visibility="invisible" />
-
-                <TextView
-                    android:id="@+id/gameSpace1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".5"
-                    android:maxLines="1"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                     />
-
-                <Button
-                    android:id="@+id/gameWord2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:maxLines="1"
-                    android:onClick="checkAnswer"
-                    android:text="TextView"
-                    android:textColor="#000000"
-                    android:textSize="20dp"
-                    android:visibility="invisible" />
-
-                <TextView
-                    android:id="@+id/gameSpace2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".5"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <Button
-                    android:id="@+id/gameWord3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:maxLines="1"
-                    android:onClick="checkAnswer"
-                    android:text="TextView"
-                    android:textColor="#000000"
-                    android:textSize="20dp" 
-                    android:visibility="invisible"/>
-
-            </TableRow>
-
-            <TableRow
-                android:id="@+id/tableRow2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp" >
-
-                <TextView
-                    android:id="@+id/gameSpace3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".5"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <Button
-                    android:id="@+id/gameWord4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:onClick="checkAnswer"
-                    android:text="TextView"
-                    android:textColor="#000000"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
-                    android:visibility="invisible" />
-
-                <TextView
-                    android:id="@+id/gameSpace4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".5"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <Button
-                    android:id="@+id/gameWord5"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:onClick="checkAnswer"
-                    android:text="TextView"
-                    android:textColor="#000000"
-                    android:textSize="20dp"
-                    android:textStyle="bold" 
-                    android:visibility="invisible"/>
-
-                <TextView
-                    android:id="@+id/gameSpace5"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".5"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            </TableRow>
-
-            <TableRow
-                android:id="@+id/tableRow3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="1" >
-
-                <Button
-                    android:id="@+id/gameWord6"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:onClick="checkAnswer"
-                    android:text="TextView"
-                    android:textColor="#000000"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    android:visibility="invisible" />
-
-                <TextView
-                    android:id="@+id/gameSpace6"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".5"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <Button
-                    android:id="@+id/gameWord7"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:onClick="checkAnswer"
-                    android:text="TextView"
-                    android:textColor="#000000"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    android:visibility="invisible" />
-
-                <TextView
-                    android:id="@+id/gameSpace7"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".5"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <Button
-                    android:id="@+id/gameWord8"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:onClick="checkAnswer"
-                    android:text="TextView"
-                    android:textColor="#000000"
-                    android:textSize="18dp"
-                    android:textStyle="bold" 
-                    android:visibility="invisible"/>
-
-            </TableRow>
-
-            <TableRow
-                android:id="@+id/tableRow4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp" >
-
-                <TextView
-                    android:id="@+id/gameSpace8"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".5"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <Button
-                    android:id="@+id/gameWord9"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:onClick="checkAnswer"
-                    android:text="TextView"
-                    android:textColor="#000000"
-                    android:textSize="18dp"
-                    android:visibility="invisible" />
-
-                <TextView
-                    android:id="@+id/gameSpace9"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".5"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <Button
-                    android:id="@+id/gameWord10"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:onClick="checkAnswer"
-                    android:text="TextView"
-                    android:textColor="#000000"
-                    android:textSize="18dp" 
-                    android:visibility="invisible"/>
-
-                <TextView
-                    android:id="@+id/gameSpace10"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".5"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            </TableRow>
-
-        </TableLayout>
-
-    </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

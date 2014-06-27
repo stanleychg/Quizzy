@@ -4,4 +4,6 @@
     <dimen name="vert_column_margin">30dp</dimen>
     <dimen name="horiz_column_margin">50dp</dimen>   
     <dimen name="grid_text_size">15dp</dimen>
+    <dimen name="side_margin">50dp</dimen>
+    <dimen name="side_text_margin">5dp</dimen>
 </resources>

@@ -12,6 +12,7 @@ package wordgames.game;
  */
 
 import java.util.Random;
+
 import wordgames.game.util.DatabaseQuizManager;
 import wordgames.game.util.Quiz;
 import wordgames.game.util.WordPair;
@@ -19,6 +20,9 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,6 +31,8 @@ import android.widget.Toast;
 public class QuizGame extends Activity {
     /** Called when the activity is first created. */
 	 
+	final int MAX_WORDS = 4;
+	
 	//This is the question
 	TextView wordDesc;
 	 
@@ -82,26 +88,15 @@ public class QuizGame extends Activity {
         wordsLeft.addAll(QUIZ);
         
         //Initialize Views
-        descPrevious = (TextView)findViewById(R.id.gamePreviousDesc);
         wordDesc = (TextView)this.findViewById(R.id.gameCurrentDesc);
-        right = (TextView)this.findViewById(R.id.gameRightCount);
-        wrong = (TextView)this.findViewById(R.id.gameWrongCount);
+      descPrevious = (TextView)findViewById(R.id.gamePreviousDesc);
+      right = (TextView)this.findViewById(R.id.gameRightCount);
+      wrong = (TextView)this.findViewById(R.id.gameWrongCount);
+
 
         //Initialize Word Selections
-        bank = new Button[Math.max(2, Math.min(QUIZ.getSize()/3,10))];
+        bank = new Button[Math.max(2, Math.min(QUIZ.getSize()/3,MAX_WORDS))];
         switch(bank.length){
-        case 10:
-            bank[9] = (Button)this.findViewById(R.id.gameWord10);
-        case 9:
-            bank[8] = (Button)this.findViewById(R.id.gameWord9);
-        case 8:
-            bank[7] = (Button)this.findViewById(R.id.gameWord8);
-        case 7:
-            bank[6] = (Button)this.findViewById(R.id.gameWord7);
-        case 6:
-            bank[5] = (Button)this.findViewById(R.id.gameWord6);
-        case 5:
-            bank[4] = (Button)this.findViewById(R.id.gameWord5);
         case 4:
             bank[3] = (Button)this.findViewById(R.id.gameWord4);
         case 3:
@@ -132,6 +127,29 @@ public class QuizGame extends Activity {
         wordDesc.setText(word.definition);
         
     }
+    
+    //Set up Action Bar
+//	public boolean onCreateOptionsMenu(Menu menu){
+//		MenuInflater inflater = getMenuInflater();
+//		inflater.inflate(R.menu.quiz_game_action, menu);
+//		
+//        //Initialize Views
+//        descPrevious = (TextView)findViewById(R.id.menu_prev_ans);
+//        right = (TextView)this.findViewById(R.id.menu_right);
+//        wrong = (TextView)this.findViewById(R.id.menu_wrong);
+//		return super.onCreateOptionsMenu(menu);
+//	}
+	
+	//Event Listener for Action Bar
+//	public boolean onOptionsItemSelected(MenuItem item){
+//		switch(item.getItemId()){
+//		case R.id.menu_add:
+//			displayAddOptions(QuizMaker.this);
+//			return true;
+//		default:
+//			return super.onOptionsItemSelected(item);
+//		}
+//	}
 	
     //Check if the View/answer selected is correct 
 	public void checkAnswer(View choice){
@@ -139,6 +157,7 @@ public class QuizGame extends Activity {
 		if(tv.getText().toString().equals(word.word)){
 			descPrevious.setText("Correct! - " + word.word 
 					+ " = " + wordDesc.getText().toString());
+			
 			grabAnotherWord(index);
 			
 	        //Select one word
@@ -149,10 +168,12 @@ public class QuizGame extends Activity {
 			
 			rightCount ++;
 			right.setText(String.valueOf(rightCount));
+			
 		}
 		else{
 			wrongCount ++;
 			wrong.setText(String.valueOf(wrongCount));
+			
 		}
 	}
 
@@ -211,7 +232,7 @@ public class QuizGame extends Activity {
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		// Override original function; make function harmless
-		System.out.println("ojafeio");
+		System.out.println("NOT SUPPOSE TO DO THIS");
 	}
 
 	
