@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/side_margin"
         android:layout_marginRight="@dimen/side_margin"
-        android:background="#EEEEEE"
+        android:background="@drawable/fade_white_gradient"
         android:orientation="vertical"
         android:weightSum="1" >
 
