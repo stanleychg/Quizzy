@@ -24,6 +24,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,7 +85,6 @@ public class QuizGame extends Activity {
         	return; //Make sure the Activity stops and returns instead of continuing
         }
         
-        
         wordsLeft = new Quiz(QUIZ.getName());
         wordsLeft.addAll(QUIZ);
         
@@ -125,6 +126,10 @@ public class QuizGame extends Activity {
         index = Rand.nextInt(wordSelections.length);
         word = wordSelections[index];
         wordDesc.setText(word.definition);
+        
+        //Animate Views
+	    AnimationSet as = (AnimationSet)AnimationUtils.loadAnimation(this, R.animator.fade_in);
+	    (findViewById(R.id.gameLayout)).startAnimation(as);
         
     }
     

@@ -39,6 +39,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -70,6 +72,8 @@ public class QuizFront extends Activity{
 	final String IMPORT_TITLE = "Import Quiz";
 	final String TOGGLE_TEXT = "Toggle All";
 	final String IMPORT_LIST_TEXT = "Select Quizzes to Import";
+	final String ADD_QUIZ_TITLE = "What would you like to name your quiz?";
+	final String QUIZ_OPTIONS_TITLE = "What would you like to do?";
 	
 	//UI
 	GridView quizList;
@@ -265,7 +269,7 @@ public class QuizFront extends Activity{
 	//Add Quiz Dialog
 	private void dialogCreate(final Context mContext) {
         final Dialog dialog = new Dialog(mContext);
-        dialog.setTitle("Insert Name:");
+        dialog.setTitle(ADD_QUIZ_TITLE);
 
         LinearLayout ll = new LinearLayout(mContext);
         ll.setOrientation(LinearLayout.VERTICAL);
@@ -321,7 +325,7 @@ public class QuizFront extends Activity{
 	//Quiz Options Dialog
 	private void dialogOptions(final Context mContext, final int pos) {
         final Dialog dialog = new Dialog(mContext);
-        dialog.setTitle("What would you like to do?");
+        dialog.setTitle(QUIZ_OPTIONS_TITLE);
         final Quiz q = qm.get(pos);
 
         LinearLayout ll = new LinearLayout(mContext);
@@ -441,206 +445,206 @@ public class QuizFront extends Activity{
         dialog.show();        
     }
 	
-	//Settings Dialog
-	private void dialogSettings(final Context mContext) {
-        final Dialog dialog = new Dialog(mContext);
-        dialog.setTitle("Settings");
-
-        LinearLayout ll = new LinearLayout(mContext);
-        LinearLayout llLeft = new LinearLayout(mContext);
-        llLeft.setLayoutParams(new LinearLayout.LayoutParams(
-        		LayoutParams.MATCH_PARENT,
-        		LayoutParams.MATCH_PARENT,
-        		0.5f));
-        LinearLayout llRight = new LinearLayout(mContext);
-        llRight.setLayoutParams(new LinearLayout.LayoutParams(
-        		LayoutParams.MATCH_PARENT,
-        		LayoutParams.MATCH_PARENT,
-        		0.5f));
-
-        ll.setOrientation(LinearLayout.HORIZONTAL);
-        llLeft.setOrientation(LinearLayout.VERTICAL);
-        llRight.setOrientation(LinearLayout.VERTICAL);
-      
-        //Export Quizzes
-        ImageButton backup = new ImageButton(mContext);
-        backup.setImageResource(R.drawable.export_small);
-        backup.setAdjustViewBounds(true);
-        backup.setScaleType(ScaleType.CENTER_INSIDE);
-        backup.setLayoutParams(new LinearLayout.LayoutParams(
-        		LayoutParams.WRAP_CONTENT,
-        		LayoutParams.MATCH_PARENT,
-        		1.0f));
-        backup.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-        		try {
-        			//Sets the directories.
-        			//sd = sd card directory
-        			//data = data directory
-        			File sd = Environment.getExternalStorageDirectory();
-        			File data = Environment.getDataDirectory();
-        		  
-        			//Set folder path
-        			String folder = getResources().getString(R.string.sd_directory_folder);
-        		  
-        			//Set up folder directory
-        			File dir = new File(sd, folder);
-        	      
-        	      
-        			if(!dir.exists()){
-	        				//If it doesn't exist, make it.
-	        	    	if(dir.mkdirs()) System.out.println("Folder does not exist. Folder made");
-	        	    	else System.out.println("Folder does not exist. Folder failed to materialize");
-        			}
-        			else System.out.println("Folder exists...");
-        	      
-        			System.out.println("Attempting Backup...");
-        		   
-        			//Check state of sd
-        			//System.out.println(sd.toString());
-        			if (sd.canWrite()) {
-        				//sd card can write. Set this settings through Android Manifest
-        				//<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-        				System.out.println("Can write into SD...");
-        			 
-        				//Set database path
-        				String phoneDBPath;
-        				//Set backup database path
-        				String sdDBPath;
-        			  
-        				//Set up directories
-        				File phoneDB;
-        				File sdDB;
-
-    					FileChannel src;
-    					FileChannel dst;
-
-    					//Transfer SQLite databases
-    					//Time t = new Time();
-    					//t.setToNow();
-    					
-    					phoneDBPath = getResources().getString(R.string.internal_directory_folder)
-    							+ "//" 
-    							+ getResources().getString(R.string.database_file);
-    					
-    					sdDBPath = getResources().getString(R.string.sd_directory_folder) 
-    							+ "//" 
-    							+ getResources().getString(R.string.database_file)
-    						//	+ t.month/10 + t.month%10 + t.monthDay/10 + t.monthDay%10 + t.year
-    							+ ".db";
-    					phoneDB = new File(data, phoneDBPath);
-    					sdDB = new File(sd, sdDBPath);
-    					
-    					if (phoneDB.exists()) {
-    						System.out.println("Database Exists...");
-    						src = new FileInputStream(phoneDB).getChannel();
-    						dst = new FileOutputStream(sdDB).getChannel();
-
-    						dst.transferFrom(src, 0, src.size());
-
-    						src.close();
-    						dst.close();
-    						System.out.println("Quizzes backed up!");
-    					}  
-    					
-    					Toast.makeText(mContext, "Quizzes successfully exported!", Toast.LENGTH_SHORT).show();
-
-        		   }
-        		} catch (Exception e) {
-        		   // exception
-        			System.out.println("Crash");
-        			Toast.makeText(mContext, "ERROR 0: Quizzes failed to export", Toast.LENGTH_LONG).show();
-        		}
-
-
-                dialog.dismiss();
-            }
-        });        
-        backup.setPadding(5, 5, 5, 5);
-        llLeft.addView(backup);
-        
-        TextView exportTitle = new TextView(mContext);
-        exportTitle.setText(EXPORT_TITLE);
-        exportTitle.setGravity(Gravity.CENTER_HORIZONTAL);
-        exportTitle.setTextSize(TITLE_SIZE);
-        llLeft.addView(exportTitle);
-        ll.addView(llLeft);
-        
-        //Import Quizzes
-        ImageButton upload = new ImageButton(mContext);
-        upload.setImageResource(R.drawable.import_small);
-        upload.setScaleType(ScaleType.CENTER_INSIDE);
-        upload.setAdjustViewBounds(true);
-        upload.setLayoutParams(new LinearLayout.LayoutParams(
-        		LayoutParams.WRAP_CONTENT,
-        		LayoutParams.MATCH_PARENT,
-        		1.0f));
-        upload.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-
-    			try {
-    				//Store a temporary copy of the databases in the SD card
-					String phoneDbPath = getResources().getString(R.string.internal_directory_folder)
-							+ "//"
-							+ getResources().getString(R.string.database_file)
-							+ "TEMP";
-					String sdDBPath = getResources().getString(R.string.sd_directory_folder)
-							+ "//"
-							+ getResources().getString(R.string.database_file)
-							+ ".db";
-					File sdDB = new File(Environment.getExternalStorageDirectory(), sdDBPath);
-					File phoneDb = new File(Environment.getDataDirectory(),phoneDbPath);
-					
-    				//Check state of sd
-    				if (sdDB.canRead()) {
-    					//sd card can write. Set this settings through Android Manifest
-    					//<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-    					System.out.println("Can Read from SD...");
-
-
-    					FileChannel src = new FileInputStream(sdDB).getChannel();
-    					FileChannel dst = new FileOutputStream(phoneDb).getChannel();
-    					
-    					dst.transferFrom(src, 0, src.size());
-    					
-    					DatabaseQuizManager temp = new DatabaseQuizManager(
-    							mContext,
-    							getResources().getString(R.string.database_file) + "TEMP");
-    					temp.open(false);
-    					//Tracks quizzes in sd card
-    					List<QuizImport> tempList = new ArrayList<QuizImport>();
-    					for(String s: temp.getQuizCount()){
-        					tempList.add(new QuizImport(s));
-        				}
-    					temp.close();
-    					
-    					showListOfImports(mContext,tempList);
-
-        		   }
-        		} catch (Exception e) {
-        		   // exception
-        			System.out.println("Crash");
-        			Toast.makeText(mContext, "ERROR 0: Quizzes failed to import", Toast.LENGTH_LONG).show();
-        		}
-        		
-                dialog.dismiss();
-            }
-        });  
-        upload.setPadding(5, 5, 5, 5);
-        llRight.addView(upload);
-
-        TextView importTitle = new TextView(mContext);
-        importTitle.setText(IMPORT_TITLE);
-        importTitle.setGravity(Gravity.CENTER_HORIZONTAL);
-        importTitle.setTextSize(TITLE_SIZE);
-        llRight.addView(importTitle);
-        ll.addView(llRight);
-        
-        
-        dialog.setContentView(ll);        
-        dialog.show();        
-    }
-	
+//	//Settings Dialog
+//	private void dialogSettings(final Context mContext) {
+//        final Dialog dialog = new Dialog(mContext);
+//        dialog.setTitle("Settings");
+//
+//        LinearLayout ll = new LinearLayout(mContext);
+//        LinearLayout llLeft = new LinearLayout(mContext);
+//        llLeft.setLayoutParams(new LinearLayout.LayoutParams(
+//        		LayoutParams.MATCH_PARENT,
+//        		LayoutParams.MATCH_PARENT,
+//        		0.5f));
+//        LinearLayout llRight = new LinearLayout(mContext);
+//        llRight.setLayoutParams(new LinearLayout.LayoutParams(
+//        		LayoutParams.MATCH_PARENT,
+//        		LayoutParams.MATCH_PARENT,
+//        		0.5f));
+//
+//        ll.setOrientation(LinearLayout.HORIZONTAL);
+//        llLeft.setOrientation(LinearLayout.VERTICAL);
+//        llRight.setOrientation(LinearLayout.VERTICAL);
+//      
+//        //Export Quizzes
+//        ImageButton backup = new ImageButton(mContext);
+//        backup.setImageResource(R.drawable.export_small);
+//        backup.setAdjustViewBounds(true);
+//        backup.setScaleType(ScaleType.CENTER_INSIDE);
+//        backup.setLayoutParams(new LinearLayout.LayoutParams(
+//        		LayoutParams.WRAP_CONTENT,
+//        		LayoutParams.MATCH_PARENT,
+//        		1.0f));
+//        backup.setOnClickListener(new OnClickListener() {
+//            public void onClick(View v) {
+//        		try {
+//        			//Sets the directories.
+//        			//sd = sd card directory
+//        			//data = data directory
+//        			File sd = Environment.getExternalStorageDirectory();
+//        			File data = Environment.getDataDirectory();
+//        		  
+//        			//Set folder path
+//        			String folder = getResources().getString(R.string.sd_directory_folder);
+//        		  
+//        			//Set up folder directory
+//        			File dir = new File(sd, folder);
+//        	      
+//        	      
+//        			if(!dir.exists()){
+//	        				//If it doesn't exist, make it.
+//	        	    	if(dir.mkdirs()) System.out.println("Folder does not exist. Folder made");
+//	        	    	else System.out.println("Folder does not exist. Folder failed to materialize");
+//        			}
+//        			else System.out.println("Folder exists...");
+//        	      
+//        			System.out.println("Attempting Backup...");
+//        		   
+//        			//Check state of sd
+//        			//System.out.println(sd.toString());
+//        			if (sd.canWrite()) {
+//        				//sd card can write. Set this settings through Android Manifest
+//        				//<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+//        				System.out.println("Can write into SD...");
+//        			 
+//        				//Set database path
+//        				String phoneDBPath;
+//        				//Set backup database path
+//        				String sdDBPath;
+//        			  
+//        				//Set up directories
+//        				File phoneDB;
+//        				File sdDB;
+//
+//    					FileChannel src;
+//    					FileChannel dst;
+//
+//    					//Transfer SQLite databases
+//    					//Time t = new Time();
+//    					//t.setToNow();
+//    					
+//    					phoneDBPath = getResources().getString(R.string.internal_directory_folder)
+//    							+ "//" 
+//    							+ getResources().getString(R.string.database_file);
+//    					
+//    					sdDBPath = getResources().getString(R.string.sd_directory_folder) 
+//    							+ "//" 
+//    							+ getResources().getString(R.string.database_file)
+//    						//	+ t.month/10 + t.month%10 + t.monthDay/10 + t.monthDay%10 + t.year
+//    							+ ".db";
+//    					phoneDB = new File(data, phoneDBPath);
+//    					sdDB = new File(sd, sdDBPath);
+//    					
+//    					if (phoneDB.exists()) {
+//    						System.out.println("Database Exists...");
+//    						src = new FileInputStream(phoneDB).getChannel();
+//    						dst = new FileOutputStream(sdDB).getChannel();
+//
+//    						dst.transferFrom(src, 0, src.size());
+//
+//    						src.close();
+//    						dst.close();
+//    						System.out.println("Quizzes backed up!");
+//    					}  
+//    					
+//    					Toast.makeText(mContext, "Quizzes successfully exported!", Toast.LENGTH_SHORT).show();
+//
+//        		   }
+//        		} catch (Exception e) {
+//        		   // exception
+//        			System.out.println("Crash");
+//        			Toast.makeText(mContext, "ERROR 0: Quizzes failed to export", Toast.LENGTH_LONG).show();
+//        		}
+//
+//
+//                dialog.dismiss();
+//            }
+//        });        
+//        backup.setPadding(5, 5, 5, 5);
+//        llLeft.addView(backup);
+//        
+//        TextView exportTitle = new TextView(mContext);
+//        exportTitle.setText(EXPORT_TITLE);
+//        exportTitle.setGravity(Gravity.CENTER_HORIZONTAL);
+//        exportTitle.setTextSize(TITLE_SIZE);
+//        llLeft.addView(exportTitle);
+//        ll.addView(llLeft);
+//        
+//        //Import Quizzes
+//        ImageButton upload = new ImageButton(mContext);
+//        upload.setImageResource(R.drawable.import_small);
+//        upload.setScaleType(ScaleType.CENTER_INSIDE);
+//        upload.setAdjustViewBounds(true);
+//        upload.setLayoutParams(new LinearLayout.LayoutParams(
+//        		LayoutParams.WRAP_CONTENT,
+//        		LayoutParams.MATCH_PARENT,
+//        		1.0f));
+//        upload.setOnClickListener(new OnClickListener() {
+//            public void onClick(View v) {
+//
+//    			try {
+//    				//Store a temporary copy of the databases in the SD card
+//					String phoneDbPath = getResources().getString(R.string.internal_directory_folder)
+//							+ "//"
+//							+ getResources().getString(R.string.database_file)
+//							+ "TEMP";
+//					String sdDBPath = getResources().getString(R.string.sd_directory_folder)
+//							+ "//"
+//							+ getResources().getString(R.string.database_file)
+//							+ ".db";
+//					File sdDB = new File(Environment.getExternalStorageDirectory(), sdDBPath);
+//					File phoneDb = new File(Environment.getDataDirectory(),phoneDbPath);
+//					
+//    				//Check state of sd
+//    				if (sdDB.canRead()) {
+//    					//sd card can write. Set this settings through Android Manifest
+//    					//<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+//    					System.out.println("Can Read from SD...");
+//
+//
+//    					FileChannel src = new FileInputStream(sdDB).getChannel();
+//    					FileChannel dst = new FileOutputStream(phoneDb).getChannel();
+//    					
+//    					dst.transferFrom(src, 0, src.size());
+//    					
+//    					DatabaseQuizManager temp = new DatabaseQuizManager(
+//    							mContext,
+//    							getResources().getString(R.string.database_file) + "TEMP");
+//    					temp.open(false);
+//    					//Tracks quizzes in sd card
+//    					List<QuizImport> tempList = new ArrayList<QuizImport>();
+//    					for(String s: temp.getQuizCount()){
+//        					tempList.add(new QuizImport(s));
+//        				}
+//    					temp.close();
+//    					
+//    					showListOfImports(mContext,tempList);
+//
+//        		   }
+//        		} catch (Exception e) {
+//        		   // exception
+//        			System.out.println("Crash");
+//        			Toast.makeText(mContext, "ERROR 0: Quizzes failed to import", Toast.LENGTH_LONG).show();
+//        		}
+//        		
+//                dialog.dismiss();
+//            }
+//        });  
+//        upload.setPadding(5, 5, 5, 5);
+//        llRight.addView(upload);
+//
+//        TextView importTitle = new TextView(mContext);
+//        importTitle.setText(IMPORT_TITLE);
+//        importTitle.setGravity(Gravity.CENTER_HORIZONTAL);
+//        importTitle.setTextSize(TITLE_SIZE);
+//        llRight.addView(importTitle);
+//        ll.addView(llRight);
+//        
+//        
+//        dialog.setContentView(ll);        
+//        dialog.show();        
+//    }
+//	
 	private void dialogDelete(final Context mContext, final String quizName){
 		final Dialog dialog = new Dialog(mContext);
 		dialog.setTitle("Delete " + quizName + "?");
@@ -871,6 +875,10 @@ public class QuizFront extends Activity{
 
 	protected void onResume() {
 		updateList();
+		
+	    //Animate Views
+	    AnimationSet as = (AnimationSet)AnimationUtils.loadAnimation(this, R.animator.fade_in);
+	    quizList.startAnimation(as);
 		super.onResume();
 	}
 	

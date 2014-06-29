@@ -24,6 +24,8 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
@@ -62,6 +64,7 @@ public class QuizMaker extends Activity{
 	
 	    //List of words in quiz
 	    wordList = (ListView)findViewById(R.id.makeWordList);
+	   
 	    
 	    //Name of quiz
 	    quiz = new Quiz(this.getIntent().getStringExtra("name"));
@@ -112,6 +115,11 @@ public class QuizMaker extends Activity{
 		wordCount = (TextView)findViewById(R.id.makeWordCount);
 		wordCount.setText("");
 		wordCount.setText(String.valueOf(numOfWords) + " words");
+		
+	    //Animate Views
+	    AnimationSet as = (AnimationSet)AnimationUtils.loadAnimation(this, R.animator.fade_in);
+	    wordList.startAnimation(as);
+	    wordCount.startAnimation(as);
 		
 		
 	}
