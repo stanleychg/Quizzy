@@ -64,7 +64,6 @@ public class QuizMaker extends Activity{
 	
 	    //List of words in quiz
 	    wordList = (ListView)findViewById(R.id.makeWordList);
-	   
 	    
 	    //Name of quiz
 	    quiz = new Quiz(this.getIntent().getStringExtra("name"));
@@ -340,11 +339,11 @@ public class QuizMaker extends Activity{
 	
 
 	//Exit Screen
-	@Override
-	public void onBackPressed() {
-		saveQuiz();
-		finish();
-	}
+//	@Override
+//	public void onBackPressed() {
+//		saveQuiz();
+//		finish();
+//	}
 	
 	//Hide tutorial if there is a word
 	private void hideIntro(){
@@ -363,15 +362,40 @@ public class QuizMaker extends Activity{
 	}
 
 	/* (non-Javadoc)
-	 * @see android.app.Activity#onSaveInstanceState(android.os.Bundle)
+	 * @see android.app.Activity#onPause()
+	 * 
+	 * Save quiz before pausing.
 	 */
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
+	protected void onPause() {
 		// TODO Auto-generated method stub
-		
-		super.onSaveInstanceState(outState);
-		saveQuiz();
+		super.onPause();
+		if(data != null)
+			saveQuiz();
 	}
+	
+	
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onRestart()
+	 * 
+	 * Open up database again if it closed
+	 */
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		data.open(true);
+		
+		if(!data.setTable(quiz.getName())){
+			data.addTable(quiz.getName());
+			data.setTable(quiz.getName());
+		}
+	}
+	
+	
+	
+	
 	
 
 
