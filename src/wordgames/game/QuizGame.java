@@ -49,10 +49,10 @@ public class QuizGame extends Activity {
 	TextView wrong;
 	int wrongCount = 0;
 	
-	//The 10 Selections
+	//The x Selections
 	Button[] bank;
 	
-	//The 10 WordPair Selections
+	//The x WordPair Selections
 	WordPair[] wordSelections;
 	 
 	//WordPair Selected
@@ -112,9 +112,7 @@ public class QuizGame extends Activity {
         for(Button b: bank){
         	b.setVisibility(View.VISIBLE);
         }
-        
-
-        
+       
         //Word Selections
         wordSelections = new WordPair[bank.length];
         for(int x = 0; x < wordSelections.length; x ++){
@@ -236,8 +234,58 @@ public class QuizGame extends Activity {
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
-		// Override original function; make function harmless
-		System.out.println("NOT SUPPOSE TO DO THIS");
+		super.onConfigurationChanged(newConfig);
+		
+		//Grab vital info before changing to new layout
+		String tempPreviousCorrect = descPrevious.getText().toString();
+		
+        //Reset Content View for new layout
+		setContentView(R.layout.quiz_game);
+        
+        //Initialize Views
+        wordDesc = (TextView)this.findViewById(R.id.gameCurrentDesc);
+        descPrevious = (TextView)findViewById(R.id.gamePreviousDesc);
+        right = (TextView)this.findViewById(R.id.gameRightCount);
+        wrong = (TextView)this.findViewById(R.id.gameWrongCount);
+
+
+        //Initialize Word Selections
+        bank = new Button[Math.max(2, Math.min(QUIZ.getSize()/3,MAX_WORDS))];
+        switch(bank.length){
+        case 4:
+            bank[3] = (Button)this.findViewById(R.id.gameWord4);
+        case 3:
+            bank[2] = (Button)this.findViewById(R.id.gameWord3);
+        case 2:
+            bank[1] = (Button)this.findViewById(R.id.gameWord2);
+            bank[0] = (Button)this.findViewById(R.id.gameWord1);
+            break;
+        }
+        
+        //Set buttons visible
+        for(Button b: bank){
+        	b.setVisibility(View.VISIBLE);
+        }
+        
+        //Reset definition
+        wordDesc.setText(word.definition);
+        
+        //Reset bank
+		for(int x = 0; x < bank.length; x++){
+			bank[x].setText(wordSelections[x].word);
+		}
+
+        
+        //Reset Scores
+		right.setText(String.valueOf(rightCount));
+		wrong.setText(String.valueOf(wrongCount));
+		
+		//Reset previous word if one has been answered
+		if(rightCount > 0){
+			descPrevious.setText(tempPreviousCorrect);
+		}
+
+        
 	}
 
 	

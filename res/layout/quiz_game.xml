@@ -9,8 +9,8 @@
         android:id="@+id/gameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/side_margin"
-        android:layout_marginRight="@dimen/side_margin"
+        android:layout_marginLeft="@dimen/side_margin_port"
+        android:layout_marginRight="@dimen/side_margin_port"
         android:background="@drawable/fade_white_gradient"
         android:orientation="vertical"
         android:weightSum="1" >
@@ -108,9 +108,8 @@
                 <Button
                     android:id="@+id/gameWord4"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    
                     android:background="@drawable/black_white_gradient"
                     android:gravity="left|center_vertical"
                     android:onClick="checkAnswer"
@@ -123,7 +122,8 @@
                     android:id="@+id/gameRightTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="bottom|right"
+                    android:layout_marginBottom="25dp"
                     android:layout_marginRight="100dp"
                     android:text="Right"
                     android:textColor="#000000" />
@@ -132,9 +132,9 @@
                     android:id="@+id/gameRightCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="bottom|right"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginRight="115dp"
-                    android:layout_marginTop="15dp"
                     android:text="0"
                     android:textColor="#000000" />
 
@@ -142,7 +142,8 @@
                     android:id="@+id/gameWrongTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="bottom|right"
+                    android:layout_marginBottom="25dp"
                     android:layout_marginRight="20dp"
                     android:text="Wrong"
                     android:textColor="#000000" />
@@ -151,11 +152,12 @@
                     android:id="@+id/gameWrongCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="bottom|right"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginRight="40dp"
-                    android:layout_marginTop="15dp"
                     android:text="0"
                     android:textColor="#000000" />
+
             </FrameLayout>
 
         </LinearLayout>

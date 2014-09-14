@@ -10,8 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/side_margin"
-        android:layout_marginRight="@dimen/side_margin"
+        android:layout_marginLeft="@dimen/side_margin_port"
+        android:layout_marginRight="@dimen/side_margin_port"
         android:layout_weight=".2"
         android:background="#EEEEEE"
         android:orientation="vertical" >
@@ -38,7 +38,7 @@
                 android:text="# of Words"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/DESC"
-                android:textSize="45sp"
+                android:textSize="@dimen/word_count_size"
                 android:visibility="visible" />
 
             <ListView

@@ -9,8 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/side_margin"
-        android:layout_marginRight="@dimen/side_margin"
+        android:layout_marginLeft="@dimen/side_margin_port"
+        android:layout_marginRight="@dimen/side_margin_port"
         android:layout_weight=".2"
         android:orientation="vertical" >
 
@@ -27,9 +27,9 @@
                 android:background="@drawable/fade_white_gradient"
                 android:cacheColorHint="@color/WORD_LIST"
                 android:gravity="center_horizontal"
-                android:horizontalSpacing="@dimen/horiz_column_margin"
-                android:numColumns="@integer/num_columns"
-                android:verticalSpacing="@dimen/vert_column_margin" >
+                android:horizontalSpacing="@dimen/horiz_column_margin_port"
+                android:numColumns="@integer/num_columns_port"
+                android:verticalSpacing="@dimen/vert_column_margin_port" >
 
             </GridView>
 

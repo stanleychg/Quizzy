@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="num_columns" type="integer" format="integer">4</item>
-    <dimen name="vert_column_margin">30dp</dimen>
-    <dimen name="horiz_column_margin">50dp</dimen>   
+    <item name="num_columns_land" type="integer" format="integer">4</item>
+    <dimen name="vert_column_margin_land">30dp</dimen>
+    <dimen name="horiz_column_margin_land">50dp</dimen>   
+    <item name="num_columns_port" type="integer" format="integer">3</item>
+    <dimen name="vert_column_margin_port">30dp</dimen>
+    <dimen name="horiz_column_margin_port">50dp</dimen> 
     <dimen name="grid_text_size">15dp</dimen>
-    <dimen name="side_margin">50dp</dimen>
+    <dimen name="side_margin_land">50dp</dimen>
+    <dimen name="side_margin_port">0dp</dimen>
     <dimen name="side_text_margin">5dp</dimen>
+    <dimen name="word_count_size">30dp</dimen>
 </resources>

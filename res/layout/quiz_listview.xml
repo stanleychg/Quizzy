@@ -9,6 +9,7 @@
         android:id="@+id/layoutImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
         android:src="@drawable/books_small" />
@@ -17,6 +18,8 @@
         android:id="@+id/layoutName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
         android:text="Name of Quiz"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/BLACK"

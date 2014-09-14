@@ -226,6 +226,37 @@ public class QuizMaker extends Activity{
         dialog.show();        
     }
 
+	//Change layout when orientation changes
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		// TODO Auto-generated method stub
+		super.onConfigurationChanged(newConfig);
+		setContentView(R.layout.quiz_maker);
+		
+	    //List of words in quiz
+	    wordList = (ListView)findViewById(R.id.makeWordList);
+	    
+	    //Set Name of quiz on ActionBar
+	    this.getActionBar().setTitle(this.getIntent().getStringExtra("name"));
+		
+		numOfWords = quiz.getSize();
+		wordList.setAdapter(wpa);
+	    wordList.setOnItemClickListener(new OnItemClickListener(){
+	
+			public void onItemClick(AdapterView<?> arg0, View view, int pos,
+					long arg3) {
+				// TODO Auto-generated method stub
+				displayModifyOptions(view.getContext(), pos);
+			}
+	    	
+	    });
+		
+		
+		wordCount = (TextView)findViewById(R.id.makeWordCount);
+		wordCount.setText("");
+		wordCount.setText(String.valueOf(numOfWords) + " words");
+	}
+
 	//Modify word dialog
 	public void displayModifyOptions(final Context mContext, final int pos){
         final Dialog dialog = new Dialog(mContext);

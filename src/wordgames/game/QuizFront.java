@@ -26,6 +26,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Environment;
@@ -116,21 +117,25 @@ public class QuizFront extends Activity{
 	    	
 	    });
 		
-		updateList();
+//	    //Update List of Quizzes
+//		updateList();
 	}
 	
+	//Inflate ActionBar
 	public boolean onCreateOptionsMenu(Menu menu){
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.quiz_front_action, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 	
+	//ActionBar Event Listener
 	public boolean onOptionsItemSelected(MenuItem item){
 		switch(item.getItemId()){
 			case R.id.menu_add:
 				dialogCreate(QuizFront.this);
 				return true;
 			case R.id.menu_import:
+				//Import Quizzes
     			try {
     				//Store a temporary copy of the databases in the SD card
 					String phoneDbPath = getResources().getString(R.string.internal_directory_folder)
@@ -179,7 +184,7 @@ public class QuizFront extends Activity{
 			
 				return true;
 			case R.id.menu_export:
-
+				//Export Quizzes to SD Card
         		try {
         			//Sets the directories.
         			//sd = sd card directory
@@ -271,6 +276,7 @@ public class QuizFront extends Activity{
         final Dialog dialog = new Dialog(mContext);
         dialog.setTitle(ADD_QUIZ_TITLE);
 
+        //Initialize Dialog
         LinearLayout ll = new LinearLayout(mContext);
         ll.setOrientation(LinearLayout.VERTICAL);
         ll.setLayoutParams(new LayoutParams(
@@ -298,6 +304,8 @@ public class QuizFront extends Activity{
         		LayoutParams.MATCH_PARENT,
         		LayoutParams.MATCH_PARENT,
         		0.75f));
+        
+        //Set event listener to create new quiz
         set.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
             	String s = name.getText().toString();
@@ -328,6 +336,7 @@ public class QuizFront extends Activity{
         dialog.setTitle(QUIZ_OPTIONS_TITLE);
         final Quiz q = qm.get(pos);
 
+        //Initialize Dialog
         LinearLayout ll = new LinearLayout(mContext);
         LinearLayout ll2 = new LinearLayout(mContext);
 
@@ -348,6 +357,8 @@ public class QuizFront extends Activity{
         		LayoutParams.MATCH_PARENT,
         		LayoutParams.MATCH_PARENT,
         		1.0f));
+        
+        //Set event listener to edit existing quiz
         edit.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
             	Intent i = new Intent(mContext, QuizMaker.class);
@@ -379,6 +390,7 @@ public class QuizFront extends Activity{
         		LayoutParams.MATCH_PARENT,
         		LayoutParams.MATCH_PARENT,
         		1.0f));
+        //Set event listener to use quiz
         play.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
             	Intent i = new Intent(mContext, QuizGame.class);
@@ -410,6 +422,7 @@ public class QuizFront extends Activity{
         		LayoutParams.MATCH_PARENT,
         		LayoutParams.MATCH_PARENT,
         		1.0f));
+        //Set event listener to delete quiz
         delete.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
             	//Remove from list
@@ -445,209 +458,12 @@ public class QuizFront extends Activity{
         dialog.show();        
     }
 	
-//	//Settings Dialog
-//	private void dialogSettings(final Context mContext) {
-//        final Dialog dialog = new Dialog(mContext);
-//        dialog.setTitle("Settings");
-//
-//        LinearLayout ll = new LinearLayout(mContext);
-//        LinearLayout llLeft = new LinearLayout(mContext);
-//        llLeft.setLayoutParams(new LinearLayout.LayoutParams(
-//        		LayoutParams.MATCH_PARENT,
-//        		LayoutParams.MATCH_PARENT,
-//        		0.5f));
-//        LinearLayout llRight = new LinearLayout(mContext);
-//        llRight.setLayoutParams(new LinearLayout.LayoutParams(
-//        		LayoutParams.MATCH_PARENT,
-//        		LayoutParams.MATCH_PARENT,
-//        		0.5f));
-//
-//        ll.setOrientation(LinearLayout.HORIZONTAL);
-//        llLeft.setOrientation(LinearLayout.VERTICAL);
-//        llRight.setOrientation(LinearLayout.VERTICAL);
-//      
-//        //Export Quizzes
-//        ImageButton backup = new ImageButton(mContext);
-//        backup.setImageResource(R.drawable.export_small);
-//        backup.setAdjustViewBounds(true);
-//        backup.setScaleType(ScaleType.CENTER_INSIDE);
-//        backup.setLayoutParams(new LinearLayout.LayoutParams(
-//        		LayoutParams.WRAP_CONTENT,
-//        		LayoutParams.MATCH_PARENT,
-//        		1.0f));
-//        backup.setOnClickListener(new OnClickListener() {
-//            public void onClick(View v) {
-//        		try {
-//        			//Sets the directories.
-//        			//sd = sd card directory
-//        			//data = data directory
-//        			File sd = Environment.getExternalStorageDirectory();
-//        			File data = Environment.getDataDirectory();
-//        		  
-//        			//Set folder path
-//        			String folder = getResources().getString(R.string.sd_directory_folder);
-//        		  
-//        			//Set up folder directory
-//        			File dir = new File(sd, folder);
-//        	      
-//        	      
-//        			if(!dir.exists()){
-//	        				//If it doesn't exist, make it.
-//	        	    	if(dir.mkdirs()) System.out.println("Folder does not exist. Folder made");
-//	        	    	else System.out.println("Folder does not exist. Folder failed to materialize");
-//        			}
-//        			else System.out.println("Folder exists...");
-//        	      
-//        			System.out.println("Attempting Backup...");
-//        		   
-//        			//Check state of sd
-//        			//System.out.println(sd.toString());
-//        			if (sd.canWrite()) {
-//        				//sd card can write. Set this settings through Android Manifest
-//        				//<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-//        				System.out.println("Can write into SD...");
-//        			 
-//        				//Set database path
-//        				String phoneDBPath;
-//        				//Set backup database path
-//        				String sdDBPath;
-//        			  
-//        				//Set up directories
-//        				File phoneDB;
-//        				File sdDB;
-//
-//    					FileChannel src;
-//    					FileChannel dst;
-//
-//    					//Transfer SQLite databases
-//    					//Time t = new Time();
-//    					//t.setToNow();
-//    					
-//    					phoneDBPath = getResources().getString(R.string.internal_directory_folder)
-//    							+ "//" 
-//    							+ getResources().getString(R.string.database_file);
-//    					
-//    					sdDBPath = getResources().getString(R.string.sd_directory_folder) 
-//    							+ "//" 
-//    							+ getResources().getString(R.string.database_file)
-//    						//	+ t.month/10 + t.month%10 + t.monthDay/10 + t.monthDay%10 + t.year
-//    							+ ".db";
-//    					phoneDB = new File(data, phoneDBPath);
-//    					sdDB = new File(sd, sdDBPath);
-//    					
-//    					if (phoneDB.exists()) {
-//    						System.out.println("Database Exists...");
-//    						src = new FileInputStream(phoneDB).getChannel();
-//    						dst = new FileOutputStream(sdDB).getChannel();
-//
-//    						dst.transferFrom(src, 0, src.size());
-//
-//    						src.close();
-//    						dst.close();
-//    						System.out.println("Quizzes backed up!");
-//    					}  
-//    					
-//    					Toast.makeText(mContext, "Quizzes successfully exported!", Toast.LENGTH_SHORT).show();
-//
-//        		   }
-//        		} catch (Exception e) {
-//        		   // exception
-//        			System.out.println("Crash");
-//        			Toast.makeText(mContext, "ERROR 0: Quizzes failed to export", Toast.LENGTH_LONG).show();
-//        		}
-//
-//
-//                dialog.dismiss();
-//            }
-//        });        
-//        backup.setPadding(5, 5, 5, 5);
-//        llLeft.addView(backup);
-//        
-//        TextView exportTitle = new TextView(mContext);
-//        exportTitle.setText(EXPORT_TITLE);
-//        exportTitle.setGravity(Gravity.CENTER_HORIZONTAL);
-//        exportTitle.setTextSize(TITLE_SIZE);
-//        llLeft.addView(exportTitle);
-//        ll.addView(llLeft);
-//        
-//        //Import Quizzes
-//        ImageButton upload = new ImageButton(mContext);
-//        upload.setImageResource(R.drawable.import_small);
-//        upload.setScaleType(ScaleType.CENTER_INSIDE);
-//        upload.setAdjustViewBounds(true);
-//        upload.setLayoutParams(new LinearLayout.LayoutParams(
-//        		LayoutParams.WRAP_CONTENT,
-//        		LayoutParams.MATCH_PARENT,
-//        		1.0f));
-//        upload.setOnClickListener(new OnClickListener() {
-//            public void onClick(View v) {
-//
-//    			try {
-//    				//Store a temporary copy of the databases in the SD card
-//					String phoneDbPath = getResources().getString(R.string.internal_directory_folder)
-//							+ "//"
-//							+ getResources().getString(R.string.database_file)
-//							+ "TEMP";
-//					String sdDBPath = getResources().getString(R.string.sd_directory_folder)
-//							+ "//"
-//							+ getResources().getString(R.string.database_file)
-//							+ ".db";
-//					File sdDB = new File(Environment.getExternalStorageDirectory(), sdDBPath);
-//					File phoneDb = new File(Environment.getDataDirectory(),phoneDbPath);
-//					
-//    				//Check state of sd
-//    				if (sdDB.canRead()) {
-//    					//sd card can write. Set this settings through Android Manifest
-//    					//<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-//    					System.out.println("Can Read from SD...");
-//
-//
-//    					FileChannel src = new FileInputStream(sdDB).getChannel();
-//    					FileChannel dst = new FileOutputStream(phoneDb).getChannel();
-//    					
-//    					dst.transferFrom(src, 0, src.size());
-//    					
-//    					DatabaseQuizManager temp = new DatabaseQuizManager(
-//    							mContext,
-//    							getResources().getString(R.string.database_file) + "TEMP");
-//    					temp.open(false);
-//    					//Tracks quizzes in sd card
-//    					List<QuizImport> tempList = new ArrayList<QuizImport>();
-//    					for(String s: temp.getQuizCount()){
-//        					tempList.add(new QuizImport(s));
-//        				}
-//    					temp.close();
-//    					
-//    					showListOfImports(mContext,tempList);
-//
-//        		   }
-//        		} catch (Exception e) {
-//        		   // exception
-//        			System.out.println("Crash");
-//        			Toast.makeText(mContext, "ERROR 0: Quizzes failed to import", Toast.LENGTH_LONG).show();
-//        		}
-//        		
-//                dialog.dismiss();
-//            }
-//        });  
-//        upload.setPadding(5, 5, 5, 5);
-//        llRight.addView(upload);
-//
-//        TextView importTitle = new TextView(mContext);
-//        importTitle.setText(IMPORT_TITLE);
-//        importTitle.setGravity(Gravity.CENTER_HORIZONTAL);
-//        importTitle.setTextSize(TITLE_SIZE);
-//        llRight.addView(importTitle);
-//        ll.addView(llRight);
-//        
-//        
-//        dialog.setContentView(ll);        
-//        dialog.show();        
-//    }
-//	
+	//Create dialog to delete quiz
 	private void dialogDelete(final Context mContext, final String quizName){
 		final Dialog dialog = new Dialog(mContext);
 		dialog.setTitle("Delete " + quizName + "?");
+		
+		//Initialize Dialog
 		LinearLayout ll = new LinearLayout(mContext);
 		ll.setLayoutParams(new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT,
@@ -872,22 +688,62 @@ public class QuizFront extends Activity{
 		}
 	}
 
-
+	//Called when:
+		//a) Device sleeps and resumes
+		//b) User exits QuizMaker
 	protected void onResume() {
+		super.onResume();
 		updateList();
 		
 	    //Animate Views
 	    AnimationSet as = (AnimationSet)AnimationUtils.loadAnimation(this, R.animator.fade_in);
 	    quizList.startAnimation(as);
-		super.onResume();
 	}
 	
+	//When device switches from portrait to landscape and vice versa
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		// TODO Auto-generated method stub
+		super.onConfigurationChanged(newConfig);
+		
+		setContentView(R.layout.quiz_front);
+		//Set Click Listener to GridView of Quizzes
+		quizList = (GridView)findViewById(R.id.frontQuizList);
+	    quizList.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View view,
+					int position, long arg3) {
+				// TODO Auto-generated method stub
+				System.out.println("POSITION: " + position);
+				dialogOptions(view.getContext(),position);
+			}
+	    	 
+	    });
+	    
+	    //Set Hold Listener to GridView of Quizzes
+	    quizList.setOnItemLongClickListener(new OnItemLongClickListener(){
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+	    	
+	    });
+		
+		updateList();
+
+	}
+
 	//Hide Introduction
 	private void hideIntro(){
 		View v = findViewById(R.id.frontIntro);
 		v.setVisibility(View.GONE);
 	}
 	
+	//Internal helper class to import Quizzes
 	class QuizImport {
 		//Name of Quiz
 		private String name;
@@ -917,6 +773,7 @@ public class QuizFront extends Activity{
 		}
 	}
 	
+	//Internal helper class to populate Listview with Quizzes
 	class ImportAdapter extends ArrayAdapter<QuizImport>{
 
 		private int layout;
