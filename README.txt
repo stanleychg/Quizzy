@@ -1,10 +1,7 @@
-Thank you MIT for inviting me to use Github for the 1st time! It is the first version control system that I have used. Even with this application, I am learning something new!
-
 Quick Facts:
 -All images are stored in res/drawable-mdpi/
 -All layouts are stored in res/layouts
--App currently designed for Landscape use
--App currently optimized for mobile phones
+-App currently designed and optimized for Landscape use on mobile phones
 
 Quizzy, a combination of index cards and a vocabulary building application, is split into two packages:
 -wordgames.game
