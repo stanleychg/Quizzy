@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/WHITE"
+    android:orientation="horizontal"
+    android:weightSum="1" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/side_margin_land"
+        android:layout_marginRight="@dimen/side_margin_land"
+        android:layout_weight=".2"
+        android:background="#EEEEEE"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".2"
+            android:background="@color/WHITE" >
+
+            <ImageView
+                android:id="@+id/makeIntro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/new_quiz"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/makeWordCount"
+                style="@style/header_format"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:text="# of Words"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/DESC"
+                android:textSize="@dimen/word_count_size"
+                android:visibility="visible" />
+
+            <ListView
+                android:id="@+id/makeWordList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight=".2"
+                android:background="@drawable/fade_white_gradient"
+                android:scrollbars="vertical" >
+
+            </ListView>
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
