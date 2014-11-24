@@ -39,7 +39,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/DESC"
                 android:textSize="@dimen/word_count_size"
-                android:visibility="visible" />
+                android:visibility="invisible" />
 
             <ListView
                 android:id="@+id/makeWordList"

@@ -118,7 +118,10 @@ public class QuizMaker extends Activity{
 	    //Animate Views
 	    AnimationSet as = (AnimationSet)AnimationUtils.loadAnimation(this, R.animator.fade_in);
 	    wordList.startAnimation(as);
-	    wordCount.startAnimation(as);
+	    
+	    //Visibility of word count. For testing purposes
+	    if(wordCount.getVisibility() != View.INVISIBLE)
+	    	wordCount.startAnimation(as);
 		
 		
 	}

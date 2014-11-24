@@ -73,7 +73,8 @@ public class QuizFront extends Activity{
 	final String IMPORT_TITLE = "Import Quiz";
 	final String TOGGLE_TEXT = "Toggle All";
 	final String IMPORT_LIST_TEXT = "Select Quizzes to Import";
-	final String ADD_QUIZ_TITLE = "What would you like to name your quiz?";
+	final String ADD_QUIZ_TITLE = "Add New Quiz";
+	final String ADD_QUIZ_HINT = "Ex: Gen Psych 101";
 	final String QUIZ_OPTIONS_TITLE = "What would you like to do?";
 	
 	//UI
@@ -294,6 +295,7 @@ public class QuizFront extends Activity{
         		LayoutParams.MATCH_PARENT,
         		LayoutParams.WRAP_CONTENT,
         		0.25f));
+        name.setHint(ADD_QUIZ_HINT);
         llBot.addView(name);
         
         ImageButton set = new ImageButton(mContext);
