@@ -155,7 +155,7 @@ public class DatabaseQuizManager {
 		}
 		
 		public ArrayList<String> getQuizCount(){
-			ArrayList a = new ArrayList<String>();
+			ArrayList<String> a = new ArrayList<String>();
 			Cursor c = db.rawQuery("SELECT * FROM " 
 			//+ myContext.getResources().getString(R.string.database_file)
 			+ "sqlite_master WHERE type='table' "

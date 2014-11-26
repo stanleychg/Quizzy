@@ -1,12 +1,5 @@
 package wordgames.game.util;
 
-import java.util.Vector;
-
-import android.content.Context;
-import android.app.Activity;
-import android.database.Cursor;
-
-
 
 public class CommonFunctions{
 

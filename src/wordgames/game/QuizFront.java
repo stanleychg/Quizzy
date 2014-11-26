@@ -131,6 +131,9 @@ public class QuizFront extends Activity{
 	
 	//ActionBar Event Listener
 	public boolean onOptionsItemSelected(MenuItem item){
+		FileChannel src;
+		FileChannel dst;
+		
 		switch(item.getItemId()){
 			case R.id.menu_add:
 				dialogCreate(QuizFront.this);
@@ -156,16 +159,17 @@ public class QuizFront extends Activity{
     					//<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
     					System.out.println("Can Read from SD...");
 
-
-    					FileChannel src = new FileInputStream(sdDB).getChannel();
-    					FileChannel dst = new FileOutputStream(phoneDb).getChannel();
-    					
+    					//Open file streams
+    					src = new FileInputStream(sdDB).getChannel();
+    					dst = new FileOutputStream(phoneDb).getChannel();
+    			
     					dst.transferFrom(src, 0, src.size());
     					
     					DatabaseQuizManager temp = new DatabaseQuizManager(
     							QuizFront.this,
     							getResources().getString(R.string.database_file) + "TEMP");
     					temp.open(false);
+    					
     					//Tracks quizzes in sd card
     					List<QuizImport> tempList = new ArrayList<QuizImport>();
     					for(String s: temp.getQuizCount()){
@@ -174,12 +178,17 @@ public class QuizFront extends Activity{
     					temp.close();
     					
     					showListOfImports(QuizFront.this,tempList);
+            			//Ensure that all opened streams are closed
+            			src.close(); src = null;
+            			dst.close(); dst = null;
 
         		   }
         		} catch (Exception e) {
-        		   // exception
-        			System.out.println("Crash");
+        			//Exception hit. Print error message
+        			System.out.println("Error:" + e.getMessage());
         			Toast.makeText(QuizFront.this, "ERROR 0: Quizzes failed to import", Toast.LENGTH_LONG).show();
+        		} finally {
+
         		}
 
 			
@@ -224,9 +233,6 @@ public class QuizFront extends Activity{
         				//Set up directories
         				File phoneDB;
         				File sdDB;
-
-    					FileChannel src;
-    					FileChannel dst;
 
     					//Transfer SQLite databases
     					//Time t = new Time();
@@ -460,58 +466,58 @@ public class QuizFront extends Activity{
         dialog.show();        
     }
 	
-	//Create dialog to delete quiz
-	private void dialogDelete(final Context mContext, final String quizName){
-		final Dialog dialog = new Dialog(mContext);
-		dialog.setTitle("Delete " + quizName + "?");
-		
-		//Initialize Dialog
-		LinearLayout ll = new LinearLayout(mContext);
-		ll.setLayoutParams(new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT,
-				LayoutParams.MATCH_PARENT));
-		ll.setOrientation(LinearLayout.HORIZONTAL);
-		
-		ImageButton set = new ImageButton(mContext);
-		set.setLayoutParams(new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT,
-				LayoutParams.MATCH_PARENT,
-				1.0f));
-		set.setAdjustViewBounds(true);
-		set.setImageResource(R.drawable.green_check);
-		set.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				dialog.dismiss();
-			}
-			
-		});
-		ll.addView(set);
-		
-		ImageButton undo = new ImageButton(mContext);
-		undo.setLayoutParams(new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT,
-				LayoutParams.MATCH_PARENT,
-				1.0f));
-		undo.setAdjustViewBounds(true);
-		undo.setImageResource(R.drawable.red_x);
-		undo.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				dialog.dismiss();
-			}
-			
-		});
-		ll.addView(undo);
-		
-		dialog.setContentView(ll);
-		dialog.show();
-	}
-	
+//	//Create dialog to delete quiz
+//	private void dialogDelete(final Context mContext, final String quizName){
+//		final Dialog dialog = new Dialog(mContext);
+//		dialog.setTitle("Delete " + quizName + "?");
+//		
+//		//Initialize Dialog
+//		LinearLayout ll = new LinearLayout(mContext);
+//		ll.setLayoutParams(new LinearLayout.LayoutParams(
+//				LayoutParams.MATCH_PARENT,
+//				LayoutParams.MATCH_PARENT));
+//		ll.setOrientation(LinearLayout.HORIZONTAL);
+//		
+//		ImageButton set = new ImageButton(mContext);
+//		set.setLayoutParams(new LinearLayout.LayoutParams(
+//				LayoutParams.MATCH_PARENT,
+//				LayoutParams.MATCH_PARENT,
+//				1.0f));
+//		set.setAdjustViewBounds(true);
+//		set.setImageResource(R.drawable.green_check);
+//		set.setOnClickListener(new OnClickListener(){
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				dialog.dismiss();
+//			}
+//			
+//		});
+//		ll.addView(set);
+//		
+//		ImageButton undo = new ImageButton(mContext);
+//		undo.setLayoutParams(new LinearLayout.LayoutParams(
+//				LayoutParams.MATCH_PARENT,
+//				LayoutParams.MATCH_PARENT,
+//				1.0f));
+//		undo.setAdjustViewBounds(true);
+//		undo.setImageResource(R.drawable.red_x);
+//		undo.setOnClickListener(new OnClickListener(){
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				dialog.dismiss();
+//			}
+//			
+//		});
+//		ll.addView(undo);
+//		
+//		dialog.setContentView(ll);
+//		dialog.show();
+//	}
+//	
 	//Import Function - Select Quizzes to import
 	private void showListOfImports(final Context mContext, final List<QuizImport> quizzes){
         final Dialog dialog = new Dialog(mContext);
@@ -560,9 +566,7 @@ public class QuizFront extends Activity{
         	boolean hasImported = false;
         	
 			//Sets the directories.
-			//sd = sd card directory
 			//data = data directory
-			File sd = Environment.getExternalStorageDirectory();
 			File data = Environment.getDataDirectory();
             public void onClick(View v) {
             	
@@ -780,7 +784,7 @@ public class QuizFront extends Activity{
 
 		private int layout;
 		
-		public ImportAdapter(Context context, int layout, List objects) {
+		public ImportAdapter(Context context, int layout, List<QuizImport> objects) {
 			super(context, layout, objects);
 			this.layout = layout;
 			// TODO Auto-generated constructor stub

@@ -1,9 +1,7 @@
 package wordgames.game.util;
 
-import wordgames.game.R;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseQuiz extends SQLiteOpenHelper{

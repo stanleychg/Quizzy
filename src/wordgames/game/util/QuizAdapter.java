@@ -1,8 +1,5 @@
 package wordgames.game.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import wordgames.game.R;
 
 import android.content.Context;
