@@ -13,7 +13,7 @@ package wordgames.game;
 
 import java.util.Random;
 
-import wordgames.game.util.DatabaseQuizManager;
+import wordgames.game.util.QuizDatabaseManager;
 import wordgames.game.util.Quiz;
 import wordgames.game.util.WordPair;
 import android.app.Activity;
@@ -197,7 +197,7 @@ public class QuizGame extends Activity {
 	
 	//Fill a quiz with its appropriate WordPairs
 	public boolean prepareQuiz(String name){
-		DatabaseQuizManager data = new DatabaseQuizManager(this,getResources().getString(R.string.database_file));
+		QuizDatabaseManager data = new QuizDatabaseManager(this,getResources().getString(R.string.database_file));
 		data.open(false);
 		data.setTable(name);
 		

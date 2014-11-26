@@ -1,3 +1,7 @@
+/*
+ * Subclass of ArrayAdapter<T> - Provides custom implementation of getView()
+ */
+
 package wordgames.game.util;
 
 import wordgames.game.R;

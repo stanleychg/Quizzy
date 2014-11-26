@@ -7,10 +7,11 @@
 
 package wordgames.game;
 
-import wordgames.game.util.DatabaseQuizManager;
+import java.util.ArrayList;
+
+import wordgames.game.util.QuizDatabaseManager;
 import wordgames.game.util.Quiz;
 import wordgames.game.util.QuizAdapter;
-import wordgames.game.util.QuizManager;
 import wordgames.game.util.WordPair;
 import android.app.Activity;
 import android.app.Dialog;
@@ -54,8 +55,8 @@ public class QuizMaker extends Activity{
 
 	int numOfWords;
 	
-	DatabaseQuizManager data;
-	QuizManager qm = new QuizManager();
+	QuizDatabaseManager data;
+	ArrayList<Quiz> qm = new ArrayList<Quiz>();
 	Quiz quiz;
 	
 	//Initialization
@@ -74,7 +75,7 @@ public class QuizMaker extends Activity{
 
 		//Open database with name <quizName>
     	System.out.println("NAME: " + quiz.getName());
-		data = new DatabaseQuizManager(this,getResources().getString(R.string.database_file));
+		data = new QuizDatabaseManager(this,getResources().getString(R.string.database_file));
 		
 		data.open(true);
 		

@@ -18,10 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wordgames.game.util.CommonFunctions;
-import wordgames.game.util.DatabaseQuizManager;
+import wordgames.game.util.QuizDatabaseManager;
 import wordgames.game.util.Quiz;
 import wordgames.game.util.QuizListAdapter;
-import wordgames.game.util.QuizManager;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -81,8 +80,8 @@ public class QuizFront extends Activity{
 	GridView quizList;
 	QuizListAdapter qlva;
 	
-	QuizManager qm;
-	DatabaseQuizManager data;
+	ArrayList<Quiz> qm;
+	QuizDatabaseManager data;
 	
 	Intent i;
 
@@ -176,7 +175,7 @@ public class QuizFront extends Activity{
     			
     					dst.transferFrom(src, 0, src.size());
     					
-    					DatabaseQuizManager temp = new DatabaseQuizManager(
+    					QuizDatabaseManager temp = new QuizDatabaseManager(
     							QuizFront.this,
     							getResources().getString(R.string.database_file) + "TEMP");
     					temp.open(false);
@@ -188,7 +187,8 @@ public class QuizFront extends Activity{
         				}
     					temp.close();
     					
-    					showListOfImports(QuizFront.this,tempList);
+    					showImportList(QuizFront.this,tempList);
+    					
             			//Ensure that all opened streams are closed
             			src.close(); src = null;
             			dst.close(); dst = null;
@@ -198,11 +198,8 @@ public class QuizFront extends Activity{
         			//Exception hit. Print error message
         			System.out.println("Error:" + e.getMessage());
         			Toast.makeText(QuizFront.this, "ERROR 0: Quizzes failed to import", Toast.LENGTH_LONG).show();
-        		} finally {
+        		} 
 
-        		}
-
-			
 				return true;
 			case R.id.menu_export:
 				//Export Quizzes to SD Card
@@ -250,14 +247,15 @@ public class QuizFront extends Activity{
     					//t.setToNow();
     					
     					phoneDBPath = getResources().getString(R.string.internal_directory_folder)
-    							+ "//" 
-    							+ getResources().getString(R.string.database_file);
+    						+ "//" 
+    						+ getResources().getString(R.string.database_file);
     					
     					sdDBPath = getResources().getString(R.string.sd_directory_folder) 
-    							+ "//" 
-    							+ getResources().getString(R.string.database_file)
-    						//	+ t.month/10 + t.month%10 + t.monthDay/10 + t.monthDay%10 + t.year
-    							+ ".db";
+    						+ "//" 
+    						+ getResources().getString(R.string.database_file)
+    					//	+ t.month/10 + t.month%10 + t.monthDay/10 + t.monthDay%10 + t.year
+    						+ ".db";
+    					
     					phoneDB = new File(data, phoneDBPath);
     					sdDB = new File(sd, sdDBPath);
     					
@@ -298,8 +296,8 @@ public class QuizFront extends Activity{
         LinearLayout ll = new LinearLayout(mContext);
         ll.setOrientation(LinearLayout.VERTICAL);
         ll.setLayoutParams(new LayoutParams(
-        		LayoutParams.MATCH_PARENT,
-        		LayoutParams.WRAP_CONTENT));
+        	LayoutParams.MATCH_PARENT,
+        	LayoutParams.WRAP_CONTENT));
         
         LinearLayout llBot = new LinearLayout(mContext);
         llBot.setOrientation(LinearLayout.HORIZONTAL);
@@ -309,9 +307,10 @@ public class QuizFront extends Activity{
         name.setTextSize(NAME_SIZE);
         name.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         name.setLayoutParams(new LinearLayout.LayoutParams(
-        		LayoutParams.MATCH_PARENT,
-        		LayoutParams.WRAP_CONTENT,
-        		0.25f));
+        	LayoutParams.MATCH_PARENT,
+        	LayoutParams.WRAP_CONTENT,
+        	0.25f));
+        
         name.setHint(ADD_QUIZ_HINT);
         llBot.addView(name);
         
@@ -320,15 +319,15 @@ public class QuizFront extends Activity{
         set.setScaleType(ScaleType.CENTER_INSIDE);
         set.setAdjustViewBounds(true);
         set.setLayoutParams(new LinearLayout.LayoutParams(
-        		LayoutParams.MATCH_PARENT,
-        		LayoutParams.MATCH_PARENT,
-        		0.75f));
+        	LayoutParams.MATCH_PARENT,
+        	LayoutParams.MATCH_PARENT,
+        	0.75f));
         
         //Set event listener to create new quiz
         set.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
             	String s = name.getText().toString();
-            	if(CommonFunctions.CheckChar(s) == true && !s.isEmpty()){
+            	if(CommonFunctions.checkChar(s) == true && !s.isEmpty()){
             		Intent i = new Intent(mContext, QuizMaker.class);
                 	i.putExtra("name", s);
                 	
@@ -338,16 +337,14 @@ public class QuizFront extends Activity{
             	} else if(!s.isEmpty()){
             		//Invalid characters
             		Toast.makeText(v.getContext(), "Invalid name! Please take out all spaces!", Toast.LENGTH_SHORT).show();
-            	}
-            	else {
+            	} else {
             		//Name is empty
             		Toast.makeText(v.getContext(), "Invalid name! Please insert a name!", Toast.LENGTH_SHORT).show();
             	}
-            	
-            	
-            	
+      	
             }
         });    
+        
         set.setPadding(5, 5, 5, 5);
         llBot.addView(set);
         
@@ -372,17 +369,17 @@ public class QuizFront extends Activity{
         LinearLayout llEdit = new LinearLayout(mContext);
         llEdit.setOrientation(LinearLayout.VERTICAL);
         llEdit.setLayoutParams(new LinearLayout.LayoutParams(
-        		LayoutParams.MATCH_PARENT,
-        		LayoutParams.MATCH_PARENT,
-        		1.0f));
+        	LayoutParams.MATCH_PARENT,
+        	LayoutParams.MATCH_PARENT,
+       		1.0f));
         ImageButton edit = new ImageButton(mContext);
         edit.setImageResource(R.drawable.hammer_small);
         edit.setAdjustViewBounds(true);
         edit.setScaleType(ScaleType.CENTER_INSIDE);
         edit.setLayoutParams(new LinearLayout.LayoutParams(
-        		LayoutParams.MATCH_PARENT,
-        		LayoutParams.MATCH_PARENT,
-        		1.0f));
+        	LayoutParams.MATCH_PARENT,
+        	LayoutParams.MATCH_PARENT,
+       		1.0f));
         
         //Set event listener to edit existing quiz
         edit.setOnClickListener(new OnClickListener() {
@@ -405,17 +402,19 @@ public class QuizFront extends Activity{
         LinearLayout llPlay = new LinearLayout(mContext);
         llPlay.setOrientation(LinearLayout.VERTICAL);
         llPlay.setLayoutParams(new LinearLayout.LayoutParams(
-        		LayoutParams.MATCH_PARENT,
-        		LayoutParams.MATCH_PARENT,
-        		1.0f));
+        	LayoutParams.MATCH_PARENT,
+        	LayoutParams.MATCH_PARENT,
+       		1.0f));
+        
         ImageButton play = new ImageButton(mContext);
         play.setImageResource(R.drawable.puzzle_small);
         play.setScaleType(ScaleType.CENTER_INSIDE);
         play.setAdjustViewBounds(true);
         play.setLayoutParams(new LinearLayout.LayoutParams(
-        		LayoutParams.MATCH_PARENT,
-        		LayoutParams.MATCH_PARENT,
-        		1.0f));
+       		LayoutParams.MATCH_PARENT,
+       		LayoutParams.MATCH_PARENT,
+       		1.0f));
+        
         //Set event listener to use quiz
         play.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -424,7 +423,8 @@ public class QuizFront extends Activity{
                 mContext.startActivity(i);
                 dialog.dismiss();
             }
-        });  
+        });
+        
         play.setPadding(5, 5, 5, 5);
         llPlay.addView(play);
         TextView playTitle = new TextView(mContext);
@@ -437,17 +437,18 @@ public class QuizFront extends Activity{
         LinearLayout llDelete = new LinearLayout(mContext);
         llDelete.setOrientation(LinearLayout.VERTICAL);
         llDelete.setLayoutParams(new LinearLayout.LayoutParams(
-        		LayoutParams.MATCH_PARENT,
-        		LayoutParams.MATCH_PARENT,
-        		1.0f));
+        	LayoutParams.MATCH_PARENT,
+        	LayoutParams.MATCH_PARENT,
+       		1.0f));
+        
         ImageButton delete = new ImageButton(mContext);
         delete.setImageResource(R.drawable.trash_can_small);
         delete.setScaleType(ScaleType.CENTER_INSIDE);
         delete.setAdjustViewBounds(true);
         delete.setLayoutParams(new LinearLayout.LayoutParams(
-        		LayoutParams.MATCH_PARENT,
-        		LayoutParams.MATCH_PARENT,
-        		1.0f));
+        	LayoutParams.MATCH_PARENT,
+        	LayoutParams.MATCH_PARENT,
+       		1.0f));
         //Set event listener to delete quiz
         delete.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -457,9 +458,9 @@ public class QuizFront extends Activity{
                 qlva.notifyDataSetChanged();
                 
                 //Delete quiz/table
-				data = new DatabaseQuizManager(
-						mContext,
-						getResources().getString(R.string.database_file));
+				data = new QuizDatabaseManager(
+					mContext,
+					getResources().getString(R.string.database_file));
 				data.open(true);
 				data.setTable(tableName);
 				data.dropTable();
@@ -469,6 +470,7 @@ public class QuizFront extends Activity{
                 dialog.dismiss();
             }
         });  
+        
         delete.setPadding(5, 5, 5, 5);
         llDelete.addView(delete);
         TextView deleteTitle = new TextView(mContext);
@@ -477,7 +479,6 @@ public class QuizFront extends Activity{
         deleteTitle.setTextSize(TITLE_SIZE);
         llDelete.addView(deleteTitle);
         ll2.addView(llDelete);
-
 
         ll.addView(ll2);
         dialog.setContentView(ll);        
@@ -537,32 +538,33 @@ public class QuizFront extends Activity{
 //	}
 //	
 	//Import Function - Select Quizzes to import
-	private void showListOfImports(final Context mContext, final List<QuizImport> quizzes){
+	private void showImportList(final Context mContext, final List<QuizImport> quizzes){
         final Dialog dialog = new Dialog(mContext);
         dialog.setTitle(IMPORT_LIST_TEXT);
 
         LinearLayout ll = new LinearLayout(mContext);
         LinearLayout llRight = new LinearLayout(mContext);
         llRight.setLayoutParams(new LinearLayout.LayoutParams(
-        		LayoutParams.MATCH_PARENT,
-        		LayoutParams.MATCH_PARENT,
-        		0.65f));
+        	LayoutParams.MATCH_PARENT,
+        	LayoutParams.MATCH_PARENT,
+       		0.65f));
 
         ll.setOrientation(LinearLayout.HORIZONTAL);
         llRight.setOrientation(LinearLayout.VERTICAL);
       
         ListView list = new ListView(mContext);
         list.setLayoutParams(new LinearLayout.LayoutParams(
-        		LayoutParams.MATCH_PARENT,
-        		LayoutParams.MATCH_PARENT,
-        		0.35f));
+        	LayoutParams.MATCH_PARENT,
+        	LayoutParams.MATCH_PARENT,
+       		0.35f));
+        
         final ImportAdapter ia = new ImportAdapter(mContext,R.layout.quiz_listview_import, quizzes);
         list.setAdapter(ia);
         list.setOnItemClickListener(new OnItemClickListener(){
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
-					long arg3) {
+				long arg3) {
 				// TODO Auto-generated method stub
 				quizzes.get(pos).toggleImportStatus();
 				ia.notifyDataSetChanged();
@@ -577,9 +579,10 @@ public class QuizFront extends Activity{
         set.setAdjustViewBounds(true);
         set.setScaleType(ScaleType.CENTER_INSIDE);
         set.setLayoutParams(new LinearLayout.LayoutParams(
-        		LayoutParams.MATCH_PARENT,
-        		LayoutParams.MATCH_PARENT,
-        		0.3f));
+        	LayoutParams.MATCH_PARENT,
+        	LayoutParams.MATCH_PARENT,
+       		0.3f));
+        
         set.setOnClickListener(new OnClickListener() {
         	boolean hasImported = false;
         	
@@ -597,18 +600,19 @@ public class QuizFront extends Activity{
             	for(QuizImport q : quizzes){
             		if(q.getImportStatus() == true){
             			
-            			DatabaseQuizManager src = new DatabaseQuizManager(
-    							mContext,
-    							getResources().getString(R.string.database_file) + "TEMP");
-    					DatabaseQuizManager dst = new DatabaseQuizManager(
-    							mContext,
-    							getResources().getString(R.string.database_file));
+            			QuizDatabaseManager src = new QuizDatabaseManager(
+    						mContext,
+    						getResources().getString(R.string.database_file) + "TEMP");
+    					QuizDatabaseManager dst = new QuizDatabaseManager(
+    						mContext,
+    						getResources().getString(R.string.database_file));
+    					
     					Cursor c = null;
             			try {
-        					
         					src.open(false);
         					dst.open(true);
         					src.setTable(q.getQuizName());
+        					
         					if(dst.setTable(q.getQuizName())){
         						dst.deleteAllWords();
         					} else{
@@ -625,10 +629,10 @@ public class QuizFront extends Activity{
         							dst.addWord(c.getString(c.getColumnIndex("word")),c.getString(c.getColumnIndex("definition")));
         						} while (c.moveToNext());
         					}
+        					
         					hasImported = true;
 
                 		} catch (Exception e) {
-                		   // exception
                 			System.out.println("Crash: " + e.getMessage());
                 			Toast.makeText(mContext, "ERROR 1: Quizzes failed to import", Toast.LENGTH_LONG).show();
                 		} finally{
@@ -650,15 +654,16 @@ public class QuizFront extends Activity{
             	hideIntro();
             }
         });        
+        
         set.setPadding(5, 5, 5, 5);
         llRight.addView(set);
         
         //Set
         Button toggleAll = new Button(mContext);
         toggleAll.setLayoutParams(new LinearLayout.LayoutParams(
-        		LayoutParams.MATCH_PARENT,
-        		LayoutParams.MATCH_PARENT,
-        		0.7f));
+        	LayoutParams.MATCH_PARENT,
+        	LayoutParams.MATCH_PARENT,
+       		0.7f));
         toggleAll.setText(TOGGLE_TEXT);
         toggleAll.setTextSize(TITLE_SIZE);
         toggleAll.setOnClickListener(new OnClickListener() {
@@ -686,8 +691,8 @@ public class QuizFront extends Activity{
 	
 	//Updates list of quizzes available
 	private void updateList(){
-		qm = new QuizManager();
-		data = new DatabaseQuizManager(this, getResources().getString(R.string.database_file));
+		qm = new ArrayList<Quiz>();
+		data = new QuizDatabaseManager(this, getResources().getString(R.string.database_file));
 		data.open(true);
 		
 		//Grab list of all quizzes
@@ -695,20 +700,19 @@ public class QuizFront extends Activity{
 		data.close();
 		//If # of quizzes > 0:
 		if(quizDb != null && quizDb.size() > 0){
+			//# of quizzes > 0. Grab quizzes and display them onto screen
+			
 			//Hide Tutorial
 			hideIntro();
 			
 			//Take quiz names, remove brackets, and add them to QuizManager
 			for(int x = 0; x < quizDb.size(); x++){
-				qm.addQuiz(quizDb.get(x));
+				qm.add(new Quiz(quizDb.get(x)));
 			}
 			
 			//Set adapter
 			qlva = new QuizListAdapter(this,R.layout.quiz_listview,qm);
 			quizList.setAdapter(qlva);
-		}
-		else{
-
 		}
 	}
 	
@@ -725,7 +729,7 @@ public class QuizFront extends Activity{
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view,
-					int position, long arg3) {
+				int position, long arg3) {
 				// TODO Auto-generated method stub
 				System.out.println("POSITION: " + position);
 				dialogOptions(view.getContext(),position);
@@ -738,7 +742,7 @@ public class QuizFront extends Activity{
 
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
+				int arg2, long arg3) {
 				// TODO Auto-generated method stub
 				return false;
 			}
@@ -817,11 +821,7 @@ public class QuizFront extends Activity{
 				
 			return v;
 		}
-		
-		
-
 	}
-
 }
 
 

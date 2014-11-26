@@ -1,8 +1,9 @@
-package wordgames.game.util;
-
 /*
  * WordPair - Consists of a word its associated definition
  */
+
+package wordgames.game.util;
+
 public 	class WordPair {
 	
 	public String word;

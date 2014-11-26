@@ -1,7 +1,12 @@
+/*
+ * Subclass of QuizListAdapter<T> - Provides custom implementation of getView()
+ */
+
 package wordgames.game.util;
 
-import wordgames.game.R;
+import java.util.ArrayList;
 
+import wordgames.game.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +18,13 @@ public class QuizListAdapter extends ArrayAdapter<Quiz>{
 
 	int quizLayout;
 	
-	public QuizListAdapter(Context context, int textViewResourceId,
-			QuizManager qm) {
+	public QuizListAdapter(Context context, int textViewResourceId, ArrayList<Quiz> qm) {
 		super(context, textViewResourceId, qm);
 		quizLayout = textViewResourceId;
 	}
 	
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent)
-	{	
-		
+	public View getView(int position, View convertView, ViewGroup parent){	
 		View v = convertView;
 		
 		//Temp fix
@@ -44,5 +46,4 @@ public class QuizListAdapter extends ArrayAdapter<Quiz>{
 		
 		return v;
 	}
-
 }
