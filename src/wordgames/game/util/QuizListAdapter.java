@@ -13,13 +13,11 @@ public class QuizListAdapter extends ArrayAdapter<Quiz>{
 
 	int quizLayout;
 	
-	
 	public QuizListAdapter(Context context, int textViewResourceId,
 			QuizManager qm) {
 		super(context, textViewResourceId, qm);
 		quizLayout = textViewResourceId;
 	}
-	
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)

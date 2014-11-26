@@ -1,5 +1,3 @@
-package wordgames.game;
-
 /*
  * QuizFront - Main Menu
  * 
@@ -9,6 +7,8 @@ package wordgames.game;
  * -Play with a quiz
  * -Import/Export quizzes
  */
+
+package wordgames.game;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -74,7 +74,7 @@ public class QuizFront extends Activity{
 	final String TOGGLE_TEXT = "Toggle All";
 	final String IMPORT_LIST_TEXT = "Select Quizzes to Import";
 	final String ADD_QUIZ_TITLE = "Add New Quiz";
-	final String ADD_QUIZ_HINT = "Ex: Gen Psych 101";
+	final String ADD_QUIZ_HINT = "Gen Psych 101";
 	final String QUIZ_OPTIONS_TITLE = "What would you like to do?";
 	
 	//UI
@@ -87,8 +87,7 @@ public class QuizFront extends Activity{
 	Intent i;
 
 	//Initialization
-	public void onCreate(Bundle saved)
-	{
+	public void onCreate(Bundle saved){
 		super.onCreate(saved);
 		setContentView(R.layout.quiz_front);
 		
@@ -118,8 +117,20 @@ public class QuizFront extends Activity{
 	    	
 	    });
 		
-//	    //Update List of Quizzes
-//		updateList();
+	    //List of quizzes updated in onResume
+	}
+	
+	//Updates list of quizzes and animates the views
+	//Called when:
+	//a) Device sleeps and resumes
+	//b) User exits QuizMaker
+	protected void onResume() {
+		super.onResume();
+		updateList();
+		
+	    //Animate Views
+	    AnimationSet as = (AnimationSet)AnimationUtils.loadAnimation(this, R.animator.fade_in);
+	    quizList.startAnimation(as);
 	}
 	
 	//Inflate ActionBar
@@ -317,16 +328,23 @@ public class QuizFront extends Activity{
         set.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
             	String s = name.getText().toString();
-            	if(CommonFunctions.CheckChar(s) == true){
+            	if(CommonFunctions.CheckChar(s) == true && !s.isEmpty()){
             		Intent i = new Intent(mContext, QuizMaker.class);
                 	i.putExtra("name", s);
                 	
                 	mContext.startActivity(i);
                 	dialog.dismiss();
                 	hideIntro();
-            	} else {
-            		Toast.makeText(v.getContext(), "Invalid name! Make sure to take out all spaces", Toast.LENGTH_SHORT).show();
+            	} else if(!s.isEmpty()){
+            		//Invalid characters
+            		Toast.makeText(v.getContext(), "Invalid name! Please take out all spaces!", Toast.LENGTH_SHORT).show();
             	}
+            	else {
+            		//Name is empty
+            		Toast.makeText(v.getContext(), "Invalid name! Please insert a name!", Toast.LENGTH_SHORT).show();
+            	}
+            	
+            	
             	
             }
         });    
@@ -604,7 +622,7 @@ public class QuizFront extends Activity{
         					
         					if(c.getCount() != 0){
         						do{	
-        							dst.insertWord(c.getString(c.getColumnIndex("word")),c.getString(c.getColumnIndex("definition")));
+        							dst.addWord(c.getString(c.getColumnIndex("word")),c.getString(c.getColumnIndex("definition")));
         						} while (c.moveToNext());
         					}
         					hasImported = true;
@@ -672,38 +690,26 @@ public class QuizFront extends Activity{
 		data = new DatabaseQuizManager(this, getResources().getString(R.string.database_file));
 		data.open(true);
 		
-		//GRAB LIST OF ALL QUIZZES
+		//Grab list of all quizzes
 		ArrayList<String> quizDb = data.getQuizCount();
 		data.close();
-		//IF QUIZZES IS > 0:
+		//If # of quizzes > 0:
 		if(quizDb != null && quizDb.size() > 0){
-			//HIDE TUTORIAL
+			//Hide Tutorial
 			hideIntro();
 			
-			//TAKE QUIZ NAMES, REMOVE BRACKETS,  AND ADD THEM TO QUIZMANAGER
+			//Take quiz names, remove brackets, and add them to QuizManager
 			for(int x = 0; x < quizDb.size(); x++){
 				qm.addQuiz(quizDb.get(x));
 			}
 			
-			//SET ADAPTER
+			//Set adapter
 			qlva = new QuizListAdapter(this,R.layout.quiz_listview,qm);
 			quizList.setAdapter(qlva);
 		}
 		else{
 
 		}
-	}
-
-	//Called when:
-		//a) Device sleeps and resumes
-		//b) User exits QuizMaker
-	protected void onResume() {
-		super.onResume();
-		updateList();
-		
-	    //Animate Views
-	    AnimationSet as = (AnimationSet)AnimationUtils.loadAnimation(this, R.animator.fade_in);
-	    quizList.startAnimation(as);
 	}
 	
 	//When device switches from portrait to landscape and vice versa

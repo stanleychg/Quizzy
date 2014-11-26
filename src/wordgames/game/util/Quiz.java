@@ -1,13 +1,15 @@
-package wordgames.game.util;
-
 /*
  * Quiz - An ArrayList of WordPairs
  */
+
+package wordgames.game.util;
 
 import java.util.ArrayList;
 
 public class Quiz extends ArrayList<WordPair>{
 	
+	private static final long serialVersionUID = 1L;
+
 	public enum Filter{
 		NAME_ONLY,
 		DESC_ONLY,

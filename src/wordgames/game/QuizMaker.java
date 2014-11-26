@@ -1,8 +1,11 @@
-package wordgames.game;
-
 /*
  * QuizMaker - Handles any modifications to Quiz
+ * 
+ * -Add, edit, delete words + definitions
+ * -Displays word count
  */
+
+package wordgames.game;
 
 import wordgames.game.util.DatabaseQuizManager;
 import wordgames.game.util.Quiz;
@@ -389,7 +392,7 @@ public class QuizMaker extends Activity{
 		//Quizzes
 		data.deleteAllWords();
 		for(WordPair wp: quiz){
-			data.insertWord(wp.word, wp.definition);
+			data.addWord(wp.word, wp.definition);
 		}
 		data.close();
 	}

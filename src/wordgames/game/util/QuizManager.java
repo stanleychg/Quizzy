@@ -1,8 +1,12 @@
+
+
 package wordgames.game.util;
 
 import java.util.ArrayList;
 
 public class QuizManager extends ArrayList<Quiz>{
+
+	private static final long serialVersionUID = 1L;
 
 	public QuizManager(){
 		

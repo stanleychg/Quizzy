@@ -1,5 +1,3 @@
-package wordgames.game;
-
 /*
  * QuizGame - User tests him/herself with quiz
  * 
@@ -10,6 +8,8 @@ package wordgames.game;
  * If the user is incorrect, the user must continue to guess. 
  * 
  */
+
+package wordgames.game;
 
 import java.util.Random;
 

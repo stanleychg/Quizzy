@@ -1,8 +1,14 @@
-package wordgames.game.util;
-
 /*
  * DatabaseQuizManager - Handles any modifications to Quiz
+ * 
+ * - Each table is a quiz
+ * - Each table has the following columns:
+ * - > id - unique int identifier (int primary key autoincrement)
+ * - > word - self explanatory (text)
+ * - > definition - self explanatory (text)
  */
+
+package wordgames.game.util;
 
 import java.util.ArrayList;
 
@@ -26,7 +32,6 @@ public class DatabaseQuizManager {
 		{
 			myContext = context;
 			this.dbName = dbName;
-			
 		}
 		
 		public DatabaseQuizManager open(boolean isWriteable) throws SQLException
@@ -73,7 +78,7 @@ public class DatabaseQuizManager {
 			dbQuiz = null;
 		}
 		
-		public long insertWord(String word, String desc) 
+		public long addWord(String word, String desc) 
 		{
 			ContentValues cVals = new ContentValues();
 			cVals.put("word", word);
