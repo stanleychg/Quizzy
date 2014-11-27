@@ -50,7 +50,6 @@ public class QuizListAdapter extends ArrayAdapter<Quiz>{
 		System.out.println(position);
 		
 		Quiz q = getItem(position);
-		System.out.println("POSITION: " + position);
 		TextView name = (TextView)v.findViewById(R.id.quizName);
 		TextView wordCount = (TextView)v.findViewById(R.id.quizNumWords);
 		//TextView description = (TextView)v.findViewById(R.id.quizDesc);
