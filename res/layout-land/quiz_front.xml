@@ -9,8 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/side_margin_land"
-        android:layout_marginRight="@dimen/side_margin_land"
+        android:layout_marginLeft="@dimen/side_margin_port"
+        android:layout_marginRight="@dimen/side_margin_port"
         android:layout_weight=".2"
         android:orientation="vertical" >
 
@@ -19,29 +19,13 @@
             android:layout_height="match_parent"
             android:layout_weight=".2" >
 
-            <GridView
+            <ListView
                 android:id="@+id/frontQuizList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight=".2"
-                android:background="@drawable/fade_white_gradient"
-                android:cacheColorHint="@color/WORD_LIST"
-                android:gravity="center_horizontal"
-                android:horizontalSpacing="@dimen/horiz_column_margin_land"
-                android:numColumns="@integer/num_columns_land"
-                android:scrollbars="none"
-                android:verticalSpacing="@dimen/vert_column_margin_land" >
+                android:layout_height="wrap_content" >
 
-            </GridView>
+            </ListView>
 
-            <ImageView
-                android:id="@+id/frontIntro"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/new_user"
-                android:visibility="gone" />
         </FrameLayout>
 
     </LinearLayout>

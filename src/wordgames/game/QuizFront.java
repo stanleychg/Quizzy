@@ -57,7 +57,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class QuizFront extends Activity{
+public class QuizFront extends Activity implements OnClickListener{
 
 	//Dialog Sizes
 	final float HEADER_SIZE = 30.0f;
@@ -77,7 +77,7 @@ public class QuizFront extends Activity{
 	final String QUIZ_OPTIONS_TITLE = "What would you like to do?";
 	
 	//UI
-	GridView quizList;
+	ListView quizList;
 	QuizListAdapter qlva;
 	
 	ArrayList<Quiz> qm;
@@ -91,15 +91,16 @@ public class QuizFront extends Activity{
 		setContentView(R.layout.quiz_front);
 		
 		//Set Click Listener to GridView of Quizzes
-		quizList = (GridView)findViewById(R.id.frontQuizList);
+		quizList = (ListView)findViewById(R.id.frontQuizList);
 	    quizList.setOnItemClickListener(new OnItemClickListener(){
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view,
 					int position, long arg3) {
 				// TODO Auto-generated method stub
-				System.out.println("POSITION: " + position);
-				dialogOptions(view.getContext(),position);
+				qlva.setItemLastClicked(position);
+				qlva.notifyDataSetChanged();
+				//dialogOptions(view.getContext(),position);
 			}
 	    	 
 	    });
@@ -449,6 +450,7 @@ public class QuizFront extends Activity{
         	LayoutParams.MATCH_PARENT,
         	LayoutParams.MATCH_PARENT,
        		1.0f));
+
         //Set event listener to delete quiz
         delete.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -703,7 +705,7 @@ public class QuizFront extends Activity{
 			//# of quizzes > 0. Grab quizzes and display them onto screen
 			
 			//Hide Tutorial
-			hideIntro();
+			//hideIntro();
 			
 			//Take quiz names, remove brackets, and add them to QuizManager
 			for(int x = 0; x < quizDb.size(); x++){
@@ -724,15 +726,16 @@ public class QuizFront extends Activity{
 		
 		setContentView(R.layout.quiz_front);
 		//Set Click Listener to GridView of Quizzes
-		quizList = (GridView)findViewById(R.id.frontQuizList);
+		quizList = (ListView)findViewById(R.id.frontQuizList);
 	    quizList.setOnItemClickListener(new OnItemClickListener(){
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view,
 				int position, long arg3) {
 				// TODO Auto-generated method stub
-				System.out.println("POSITION: " + position);
-				dialogOptions(view.getContext(),position);
+				qlva.setItemLastClicked(position);
+				qlva.notifyDataSetChanged();
+				//dialogOptions(view.getContext(),position);
 			}
 	    	 
 	    });
@@ -755,8 +758,8 @@ public class QuizFront extends Activity{
 
 	//Hide Introduction
 	private void hideIntro(){
-		View v = findViewById(R.id.frontIntro);
-		v.setVisibility(View.GONE);
+	//	View v = findViewById(R.id.frontIntro);
+	//	v.setVisibility(View.GONE);
 	}
 	
 	//Internal helper class to import Quizzes
@@ -820,6 +823,43 @@ public class QuizFront extends Activity{
 			check.setChecked(q.getImportStatus());
 				
 			return v;
+		}
+	}
+
+	//When buttons of a item in a ListView on clicked
+	@Override
+	public void onClick(View v) {
+		Intent i;
+		// TODO Auto-generated method stub
+		switch(v.getId()){
+		case R.id.quizEdit:
+        	i = new Intent(this, QuizMaker.class);
+        	i.putExtra("name", qm.get(qlva.getItemLastClicked()).getName());
+            startActivity(i);
+			break;
+		case R.id.quizPlay:
+        	i = new Intent(this, QuizGame.class);
+        	i.putExtra("name", qm.get(qlva.getItemLastClicked()).getName());
+            startActivity(i);
+			break;
+		case R.id.quizDelete:
+        	//Remove from list
+        	String tableName = qm.get(qlva.getItemLastClicked()).getName();
+            qm.remove(qlva.getItemLastClicked());
+            qlva.notifyDataSetChanged();
+            
+            //Delete quiz/table
+			data = new QuizDatabaseManager(
+				this,
+				getResources().getString(R.string.database_file));
+			data.open(true);
+			data.setTable(tableName);
+			data.dropTable();
+			data.close();
+            
+            Toast.makeText(this, qm.get(qlva.getItemLastClicked()).getName() 
+            	+ " removed from list", Toast.LENGTH_LONG).show();
+			break;
 		}
 	}
 }
